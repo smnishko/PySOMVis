@@ -1,0 +1,20 @@
+outputDirectory=../maps/iris
+namePrefix=iris
+vectorFileName=iris.vec
+templateFileName=iris.tv
+isNormalized=false
+randomSeed=7
+workingDirectory = ./
+
+useDatabase=false
+databaseServerAddress=
+databaseName=vectors
+databaseUser=
+databasePassword=
+databaseTableNamePrefix=iris
+
+xSize=10
+ySize=10
+learnRate=0.7
+#metricName=
+numIterations=10000

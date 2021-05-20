@@ -1,0 +1,8 @@
+$TYPE template
+$XDIM 2
+$YDIM 150
+$VEC_DIM 4
+0 sep_length
+1 sep_width
+2 pet_length
+3 pet_width
