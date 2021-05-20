@@ -7,7 +7,7 @@ import holoviews as hv
 from holoviews.streams import Pipe, Buffer
 import pandas as pd
 import time
-
+'d'
 class TimeSeries(VisualizationInterface):
     
     def __init__(self, main):

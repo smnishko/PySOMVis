@@ -73,7 +73,6 @@ class PieChart(VisualizationInterface):
             angle       = piechart[wedge]/total * 2 * np.pi
             angle_start = np.insert(angle[:-1], 0, 0, axis=0)
             angle_end   = np.cumsum(angle)
-            print(wedge)
-            color       = np.array(_COLOURS_93[len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)]
+            color       = np.array(Category20[len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)]
             return np.array([x]*wedge_n), np.array([y]*wedge_n), color, np.array([total/max_size*PIE_CHART]*wedge_n), angle_start, angle_end, 
         return np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
