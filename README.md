@@ -12,4 +12,4 @@ The picture bellow represents visualiztion algorithm on weather forecast data. T
   <li>KT - Insolation Clearness Index (dimensionless)</li>
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
-<center><img src="pics/SOM_TimeSerries.JPG" width=450/></center>
+ <p align="center"><img src="pics/SOM_TimeSerries.JPG" width=550/></p>
