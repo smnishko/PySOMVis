@@ -1,0 +1,37 @@
+$TYPE som
+$GRID_TOPOLOGY planar
+$GRID_LAYOUT rectangular
+$XDIM 10
+$YDIM 10
+$ZDIM 1
+$VEC_DIM 4
+$STORAGE_DATE 10.02.21 12:02
+$TRAINING_TIME 
+$LEARNRATE_TYPE exponential
+$LEARNRATE_INIT 0.7
+$NEIGHBORHOOD_TYPE exponential
+$NEIGHBORHOOD_INIT 5.0
+$RAND_INIT 7
+$ITERATIONS_TOTAL 10000
+$NR_TRAINVEC_TOTAL 150
+$ADAPTIVE_COORDINATES_THRESHOLD 
+$VEC_NORMALIZED false
+$QUANTERROR_MAP <error receiving value: Quality measure with name mqe not found.>
+$QUANTERROR_VEC <error receiving value: Quality measure with name mqe not found.>
+$URL_TRAINING_VEC C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.vec
+$URL_TRAINING_VEC_DESCR 
+$URL_WEIGHT_VEC C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.wgt
+$URL_QUANTERR_MAP 
+$URL_MAPPED_INPUT_VEC 
+$URL_MAPPED_INPUT_VEC_DESCR 
+$URL_UNIT_DESCR C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.unit
+$URL_TEMPLATE_VECTOR C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.tv
+$URL_DATA_WINNER_MAPPING C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.dwm
+$URL_CLASS_INFO 
+$URL_LABELS 
+$METRIC at.tuwien.ifs.somtoolbox.layers.metrics.L2Metric
+$LAYER_REVISION $Revision: 4300 $
+$DESCRIPTION 
+$AVAILABLE_VIS 
+$DATA_TYPE unknown
+$DATA_DIM 

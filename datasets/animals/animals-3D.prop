@@ -1,0 +1,13 @@
+outputDirectory=../maps/animals-3D
+namePrefix=animals-3D
+vectorFileName=animals.vec
+templateFileName=animals.tv
+isNormalized=false
+randomSeed=7
+workingDirectory = ./
+
+xSize=3
+ySize=3
+zSize=3
+learnRate=0.7
+numCycles=100

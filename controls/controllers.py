@@ -28,7 +28,7 @@ PALETTES = ['PiYG', 'PRGn', 'BrBG', 'PuOr', 'RdGy', 'RdBu', 'RdYlBu', 'RdYlGn', 
            'inferno', 'magma', 'cividis','twilight', 'twilight_shifted', 'hsv','Pastel1', 'Paired',
            'Accent', 'Dark2', 'Set1', 'Set2', 'Set3', 'tab10', 'tab20', 'tab20b', 'tab20c', 'flag',
            'prism', 'ocean', 'gist_earth', 'terrain', 'gist_stern', 'gnuplot', 'gnuplot2', 'CMRmap',
-           'cubehelix', 'brg', 'gist_rainbow', 'rainbow', 'jet', 'turbo', 'nipy_spectral', 'gist_ncar']
+           'cubehelix', 'brg', 'gist_rainbow', 'rainbow', 'jet', 'turbo', 'nipy_spectral', 'gist_ncar','glasbey_dark']
 
 class MainController(param.Parameterized):
     
@@ -252,14 +252,24 @@ class ChessboardController(param.Parameterized):
         self._calculate()
         
 class TimeSeriesController(param.Parameterized):
-    #window_size    = param.Number(30, bounds=(1, None))
-    play   = param.Action(lambda x: x.param.trigger('play'), label='➡')
-    clear   = param.Action(lambda x: x.param.trigger('clear'), label='➡')
+    
+    window_size = param.Integer(10,  bounds=(1, None))
+    speed       = param.Number(0.1)
+    betta       = param.Number(90.00, bounds=(0, 100))
+    play        = param.Action(lambda x: x.param.trigger('play'), label='▶')
+    clear       = param.Action(lambda x: x.param.trigger('clear'), label='■')
 
-    def __init__(self, calculate, clear,  **params):
+    def __init__(self, calculate, clear, _streams,_avarage_points,  **params):
         super(TimeSeriesController, self).__init__(**params)
         self._calculate = calculate
         self._clear = clear
+        self._streams = _streams
+        self._avarage_points = _avarage_points
+
+    @param.depends("window_size", watch=True)
+    def _change_length(self):
+        self._streams.length = self.window_size
+        self._avarage_points.length = self.window_size
 
     @param.depends("play", watch=True)
     def _play(self):

@@ -1,0 +1,14 @@
+outputDirectory=../../maps/animals-ghsom
+namePrefix=animals-ghsom
+vectorFileName=animals.vec
+templateFileName=animals.tv
+isNormalized=false
+randomSeed=7
+workingDirectory = ./
+
+xSize=2
+ySize=2
+learnRate=0.7
+numCycles=1000
+tau=0.3
+tau2=0.05

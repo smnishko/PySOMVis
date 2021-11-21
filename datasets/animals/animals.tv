@@ -1,0 +1,17 @@
+$TYPE template
+$XDIM 7
+$YDIM 16
+$VEC_DIM 13
+0 small 7 7 1 0 0.5
+1 medium 4 4 1 0 0.5
+2 big 5 5 1 0 0.5
+3 2_legs 7 7 1 0 0.5
+4 4_legs 9 9 1 0 0.5
+5 hair 9 9 1 0 0.5
+6 hooves 3 3 1 0 0.5
+7 mane 4 4 1 0 0.5
+8 feathers 7 7 1 0 0.5
+9 hunt 8 8 1 0 0.5
+10 run 6 6 1 0 0.5
+11 fly 5 5 1 0 0.5
+12 swim 2 2 1 0 0.5

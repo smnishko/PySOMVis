@@ -166,7 +166,7 @@ class Chessboard(VisualizationInterface):
 	    """
 	    Get the distance of a point to a segment or point.
 	      *p*, *s0*, *s1* are *xy* sequences
-	    This algorithm from http://geomalgorithms.com/a02-_lines.html
+	    This algorithm is from http://geomalgorithms.com/a02-_lines.html
 	    """
 	    distances = []
 	    if s1 is None: #distance between points and point

@@ -8,10 +8,9 @@ class ComponentPlane(VisualizationInterface):
     def __init__(self, main):
         self._main = main
         self._controls =  ComPlaneController(self._calculate, (0, self._main._dim-1), name='Component Planes')
-        self._title = None
 
     def _activate_controllers(self, ):
-        reference = pn.pane.Str('Slicing weight vector accroding it\'s component.', )
+        reference = pn.pane.Str('Slicing weight vector according it\'s components.', )
         self._main._controls.append(pn.Column(self._controls, reference, name='' ))
         self._calculate(self._controls.component)
         

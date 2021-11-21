@@ -60,7 +60,7 @@ class PieChart(VisualizationInterface):
             radius      = np.append(radius, d,axis=0)
             start_angle = np.append(start_angle,e,axis=0)
             end_angle   = np.append(end_angle,  f,axis=0)
-        print(radius)
+        
         figure = hv.render(self._main._Image, backend='bokeh')
         figure.wedge(x=pos_x, y=pos_y, radius=radius, fill_color=color, start_angle=start_angle, end_angle=end_angle, line_color=[None]*len(radius))
         self._main._pdmap[0] = figure        

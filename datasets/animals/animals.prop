@@ -1,0 +1,12 @@
+outputDirectory=../maps/animals
+namePrefix=animals
+vectorFileName=animals.vec
+templateFileName=animals.tv
+isNormalized=false
+randomSeed=7
+workingDirectory = ./
+
+xSize=5
+ySize=5
+learnRate=0.7
+numIterations=10000

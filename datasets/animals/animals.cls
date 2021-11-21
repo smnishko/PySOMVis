@@ -1,0 +1,22 @@
+$TYPE class_information
+$NUM_CLASSES 3
+$CLASS_NAMES birds carnivores herbivores
+$XDIM 2
+$YDIM 16
+$VEC_DIM 2
+1 0
+2 0
+3 0
+4 0
+5 0
+6 0
+7 0
+8 1
+9 1
+10 1
+11 1
+12 1
+13 1
+14 2
+15 2
+16 2

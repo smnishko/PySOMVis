@@ -1,0 +1,17 @@
+#iris prop file
+# somtoolbox [MnemonicSOM, -u, , --numberWinners, 300, --cpus, 4, 
+#   C:\Users\admin\Downloads\!update\somtoolbox+src\iris\iris.prop]
+#
+#Wed Feb 10 12:00:24 MSK 2021
+namePrefix=iris
+vectorFileName=C\:\\Users\\admin\\Downloads\\\!update\\somtoolbox+src\\iris\\iris.vec
+outputDirectory=C\:\\Users\\admin\\Downloads\\\!update\\somtoolbox+src\\iris
+sparseData=no
+learnRate=0.7
+workingDirectory=C\:\\Users\\admin\\Downloads\\\!update\\somtoolbox+src\\iris
+isNormalized=no
+numIterations=10000
+randomSeed=7
+ySize=10
+templateFileName=C\:\\Users\\admin\\Downloads\\\!update\\somtoolbox+src\\iris\\iris.tv
+xSize=10

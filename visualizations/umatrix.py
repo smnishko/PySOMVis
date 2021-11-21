@@ -12,20 +12,16 @@ In Proc. Intern. Neural Networks, 1990, pp. 305-308, Kluwer  Academic Press, Par
 from visualizations.iVisualization import VisualizationInterface
 import numpy as np
 import panel as pn
-import time
+
 class UMatrix(VisualizationInterface):
     
     def __init__(self, main):
         self._main = main
-        self.time = None
        
     def _activate_controllers(self, ):
         reference = pn.pane.Str("<ul><li><b>U-Matrix:</b> Ultsch, A., and Siemon, H.P. \"Kohonen's Self Organizing Feature Maps for Exploratory Data Analysis.\" In Proc. Intern. Neural Networks, 1990, pp. 305-308, Kluwer Academic Press, Paris, France.</li></ul>")
         self._main._controls.append(reference)
-        a = time.time()
         self._calculate()
-        b = time.time()
-        self.time= b-a
 
     def _deactivate_controllers(self,):
         pass  

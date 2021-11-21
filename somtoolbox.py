@@ -77,11 +77,11 @@ class SOMToolbox():
 
         self._plot = None
         self._maincontrol = MainController(self._interpolation, self._rotate, self._visualizations, OBJECTS_CLASSES, name='')
-        self._mainp = pn.Column(pn.panel(self._maincontrol, default_layout=pn.Row,width=700))
+        self._mainp = pn.Column(pn.panel(self._maincontrol, default_layout=pn.Row, width=700))
 
         self._xlim = (-.5*self._m/self._n,.5*self._m/self._n) if self._m>self._n else (-.5,.5)
         self._ylim = (-.5*self._n/self._m,.5*self._n/self._m) if self._n>self._m else (-.5,.5)
-        
+        #_COLOURS_93
         self._Image = hv.DynamicMap(hv.Image, streams=[self._pipe]).apply.opts(cmap=self._maincontrol.param.colormap, 
             width=self._width, height=self._height, xlim=self._xlim, ylim=self._ylim)
         self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(line_width=1, color='red')
