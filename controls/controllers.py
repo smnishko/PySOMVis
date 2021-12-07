@@ -37,8 +37,8 @@ class MainController(param.Parameterized):
 
     rotate_r = param.Action(lambda x: x.param.trigger('rotate_r'), label='↩')
     rotate_l = param.Action(lambda x: x.param.trigger('rotate_l'), label='↪')
-    flip_h   = param.Action(lambda x: x.param.trigger('flip_h'),   label='↔')
-    flip_v   = param.Action(lambda x: x.param.trigger('flip_v'),   label='↕')
+    #flip_h   = param.Action(lambda x: x.param.trigger('flip_h'),   label='↔')
+    #flip_v   = param.Action(lambda x: x.param.trigger('flip_v'),   label='↕')
     interpolation   = param.Boolean(False, label='interpolation')
 
     def __init__(self, interpolation, rotate, visualizations, vis_classes,  **params):
@@ -65,13 +65,13 @@ class MainController(param.Parameterized):
         self._orientation -= 1
         self._rotate(-1)
 
-    @param.depends("flip_h", watch=True)
-    def _flip_h(self):
-        self._pipe.send(np.fliplr(self._pipe.data)) 
+    #@param.depends("flip_h", watch=True)
+    #def _flip_h(self):
+    #    self._pipe.send(np.fliplr(self._pipe.data)) 
         
-    @param.depends("flip_v", watch=True)
-    def _flip_v(self):
-        self._pipe.send(np.flipud(self._pipe.data))
+    #@param.depends("flip_v", watch=True)
+    #def _flip_v(self):
+    #    self._pipe.send(np.flipud(self._pipe.data))
         
     @param.depends("visualization", watch=True)
     def _change_app(self,):

@@ -3,7 +3,6 @@ $NUM_CLASSES 3
 $CLASS_NAMES setosa versicolor virginica
 $XDIM 2
 $YDIM 150
-$VEC_DIM 2
 1 0
 2 0
 3 0
