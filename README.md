@@ -1,4 +1,4 @@
-# SOMToolbox
+# PySOMVis
 
 This repository contains the result of Master Thesis paper in Technical University of Vienna. It envolvs popular Self-Organizing maps visualization techniques, which were taken from Java based SOMToolbox (http://www.ifs.tuwien.ac.at/dm/somtoolbox/index.html) and additional one which tries to follow the changes in Time Serries data set.<br>
 The picture bellow represents visualiztion algorithm on weather forecast data. The data set includes 8 fetures of different temperature, pressure and wind speed values over 33 years (taken from the https://power.larc.nasa.gov/data-access-viewer/). The features are following:
