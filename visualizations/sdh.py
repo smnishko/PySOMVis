@@ -20,28 +20,28 @@ class SDH(VisualizationInterface):
         pass        
 
     def _calculate(self, factor, approach):
+        self._main._display(plot=SDH.sdh(self._main._weights, self._main._m, self._main._n, self._main._idata, factor, approach))
+
+    @staticmethod
+    def sdh(weights, m, n, idata, smooth_factor, sdh_type):
         import heapq
-        
-        sdh_m = np.zeros( self._main._m * self._main._n)
 
-        cs=0
-        for i in range(factor): cs += factor-i
+        sdh_m = np.zeros(m * n)
 
-        for vector in self._main._idata:
-            dist = np.sqrt(np.sum(np.power(self._main._weights - vector, 2), axis=1))
-            c = heapq.nsmallest(factor, range(len(dist)), key=dist.__getitem__)
-            print(c)
-            if (approach==0): 
-                for j in range(factor):  sdh_m[c[j]] += (factor-j)/cs # normalized
-                self._main._controls[0][1].object = self._reference[0]
-            if (approach==1):
-                for j in range(factor): sdh_m[c[j]] += 1.0/dist[c[j]] # based on distance
-                self._main._controls[0][1].object = self._reference[0] + self._reference[1]
-            if (approach==2): 
+        cs = 0
+        for i in range(smooth_factor): cs += smooth_factor - i
+
+        for vector in idata:
+            dist = np.sqrt(np.sum(np.power(weights - vector, 2), axis=1))
+            c = heapq.nsmallest(smooth_factor, range(len(dist)), key=dist.__getitem__)
+            if (sdh_type == 0):
+                for j in range(smooth_factor):  sdh_m[c[j]] += (smooth_factor - j) / cs  # normalized
+            if (sdh_type == 1):
+                for j in range(smooth_factor): sdh_m[c[j]] += 1.0 / dist[c[j]]  # based on distance
+            if (sdh_type == 2):
                 dmin = min(dist[c])
                 dmax = max(dist[c])
-                for j in range(factor): sdh_m[c[j]] += 1.0 - (dist[c[j]]-dmin)/(dmax-dmin)
-                self._main._controls[0][1].object = self._reference[0] + self._reference[2]
-        
-        plot = sdh_m.reshape(self._main._m, self._main._n)
-        self._main._display(plot=plot)
+                for j in range(smooth_factor): sdh_m[c[j]] += 1.0 - (dist[c[j]] - dmin) / (dmax - dmin)
+
+        plot = sdh_m.reshape(m, n)
+        return plot

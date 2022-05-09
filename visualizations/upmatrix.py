@@ -26,7 +26,7 @@ class UStar_PMatrix(VisualizationInterface):
         distance = lambda v: np.sum(np.linalg.norm(self._main._idata[:, None, :] - v, axis=-1) < self._controls.radius)
         plot = np.array([distance(v) for v in self._main._weights])
         if self._controls.ustar_matrix: plot = self._calculate_ustar_matrix(plot)
-        self._main._display(plot = plot.reshape(self._main._m,self._main._n))
+        self._main._display(plot = plot.reshape(self._main._m, self._main._n))
 
     def _calculate_ustar_matrix(self, matrix):
         um = UMatrix.calculate_UMatrix(self._main._weights, self._main._m, self._main._n, self._main._dim)

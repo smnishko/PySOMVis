@@ -29,9 +29,15 @@ class Clustering(VisualizationInterface):
 
     def _KMeans(self,):
         kmeans = KMeans(n_clusters=self._controls.clusters).fit(self._main._weights)
-        self._main._display(kmeans.labels_.reshape(self._main._m, self._main._n))
+        prediction = kmeans.labels_#.reshape(self._main._m,-1)
+        #for i in range(0, self._main._m):
+        #    if (i+1)%2==0: prediction[i] = np.flip(prediction[i],0)
+        self._main._display(prediction.reshape(self._main._m,-1))
 
     def _AgglomerativeClustering(self,):
         agglo = AgglomerativeClustering(n_clusters=self._controls.clusters, linkage=self._controls.linkage_type) 
         prediction = agglo.fit_predict(self._main._weights)
-        self._main._display(plot=prediction.reshape(self._main._m, self._main._n))
+        #prediction = agglo.fit_predict(self._main._weights).reshape(self._main._m,-1)
+        #for i in range(0, self._main._m):
+        #    if (i+1)%2==0: prediction[i] = np.flip(prediction[i],0)
+        self._main._display(plot=prediction.reshape(self._main._m,-1))

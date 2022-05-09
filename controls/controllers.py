@@ -5,7 +5,7 @@ from bokeh.palettes import Greys256
 OBJECTS_ALL = {'Component Planes': 0, 'Hit Histogram': 1, 'U-matrix': 2, 'D-Matrix': 3,  
                'P-matrix & U*-matrix': 4, 'Smoothed Data Histograms': 5, 'Pie Chart': 6, 
                'Neighbourhood Graph': 7, 'Chessboard': 8, 'Clustering': 9, 'Metro Map': 10, 
-               'Quantization Error': 11,  'Time Series': 12} 
+               'Quantization Error': 11,  'Time Series': 12,  'Sky Metaphor': 13} 
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -253,28 +253,33 @@ class ChessboardController(param.Parameterized):
         
 class TimeSeriesController(param.Parameterized):
     
-    window_size = param.Integer(10,  bounds=(1, None))
-    speed       = param.Number(0.1)
-    betta       = param.Number(90.00, bounds=(0, 100))
-    play        = param.Action(lambda x: x.param.trigger('play'), label='▶')
-    clear       = param.Action(lambda x: x.param.trigger('clear'), label='■')
+    Xrange      = param.Range(default=(0,10), bounds=(0,None), softbounds=(None,100), label='X-range')
+    alpha       = param.Boolean(False, label='Avarage curve')#, precedence=-1)
+    trajectory  = param.Boolean(False, label='Trajectory')
 
-    def __init__(self, calculate, clear, _streams,_avarage_points,  **params):
+    def __init__(self, calculate, uborder,  **params):
         super(TimeSeriesController, self).__init__(**params)
+        self.param.Xrange.softbounds = (None, uborder)
+        #self.param.Xrange.default = (int(uborder/3),int(uborder/3)*2)
         self._calculate = calculate
-        self._clear = clear
-        self._streams = _streams
-        self._avarage_points = _avarage_points
 
-    @param.depends("window_size", watch=True)
-    def _change_length(self):
-        self._streams.length = self.window_size
-        self._avarage_points.length = self.window_size
-
-    @param.depends("play", watch=True)
-    def _play(self):
+    @param.depends("Xrange", "trajectory", watch=True)
+    def change_range(self,):
         self._calculate()
 
-    @param.depends("clear", watch=True)
-    def _clear(self):
-        self._clear()
+star_color = ['white', 'yellow', 'blue']
+class SkyMetaphorController(param.Parameterized):
+    smooth_factor = param.Integer(3, bounds=(0, 20), label='Smoothing factor')
+    pull_force = param.Number(0.25, bounds=(0, 0.80), step=0.01, label='Pull force')
+    colormap = param.ObjectSelector(default='yellow', objects=star_color, label='Stars color')
+    def __init__(self, calculate, **params):
+        super(SkyMetaphorController, self).__init__(**params)
+        self._calculate = calculate
+
+    @param.depends("pull_force", watch=True)
+    def _change_pull_force(self, ):
+        self._calculate(None, self.pull_force)
+
+    @param.depends("smooth_factor", watch=True)
+    def _change_smooth_factor(self, ):
+        self._calculate(self.smooth_factor, None)        

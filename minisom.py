@@ -1,19 +1,12 @@
 from math import sqrt
 
-from numpy import (array, unravel_index, nditer, linalg, random, subtract, max,
-                   power, exp, pi, zeros, ones, arange, outer, meshgrid, dot,
-                   logical_and, mean, std, cov, argsort, linspace, transpose,
-                   einsum, prod, nan, sqrt, hstack, diff, argmin, multiply,
-                   nanmean, nansum)
-from numpy import sum as npsum
-from numpy.linalg import norm
+from numpy import (array, unravel_index, nditer, linalg, random, subtract,
+                   power, exp, pi, zeros, arange, outer, meshgrid, dot,
+                   logical_and, mean, std, cov, argsort, linspace, transpose)
 from collections import defaultdict, Counter
 from warnings import warn
 from sys import stdout
 from time import time
-from datetime import timedelta
-import pickle
-import os
 
 # for unit tests
 from numpy.testing import assert_almost_equal, assert_array_almost_equal
@@ -25,39 +18,17 @@ import unittest
 """
 
 
-def _build_iteration_indexes(data_len, num_iterations,
-                             verbose=False, random_generator=None):
-    """Returns an iterable with the indexes of the samples
-    to pick at each iteration of the training.
-
-    If random_generator is not None, it must be an instalce
-    of numpy.random.RandomState and it will be used
-    to randomize the order of the samples."""
-    iterations = arange(num_iterations) % data_len
-    if random_generator:
-        random_generator.shuffle(iterations)
-    if verbose:
-        return _wrap_index__in_verbose(iterations)
-    else:
-        return iterations
-
-
-def _wrap_index__in_verbose(iterations):
-    """Yields the values in iterations printing the status on the stdout."""
-    m = len(iterations)
-    digits = len(str(m))
-    progress = '\r [ {s:{d}} / {m} ] {s:3.0f}% - ? it/s'
-    progress = progress.format(m=m, d=digits, s=0)
+def _incremental_index_verbose(m):
+    """Yields numbers from 0 to m-1 printing the status on the stdout."""
+    progress = f'\r [ {0:{len(str(m))}} / {m} ] {0:3.0f}% ? it/s'
     stdout.write(progress)
     beginning = time()
-    stdout.write(progress)
-    for i, it in enumerate(iterations):
-        yield it
-        sec_left = ((m-i+1) * (time() - beginning)) / (i+1)
-        time_left = str(timedelta(seconds=sec_left))[:7]
-        progress = '\r [ {i:{d}} / {m} ]'.format(i=i+1, d=digits, m=m)
-        progress += ' {p:3.0f}%'.format(p=100*(i+1)/m)
-        progress += ' - {time_left} left '.format(time_left=time_left)
+    for i in range(m):
+        yield i
+        it_per_sec = (time() - beginning) / (i+1)
+        progress = f'\r [ {i+1:{len(str(m))}} / {m} ]'
+        progress += f' {100*(i+1)/m:3.0f}%'
+        progress += f' {it_per_sec:4.5f} it/s'
         stdout.write(progress)
 
 
@@ -88,8 +59,7 @@ def asymptotic_decay(learning_rate, t, max_iter):
 class MiniSom(object):
     def __init__(self, x, y, input_len, sigma=1.0, learning_rate=0.5,
                  decay_function=asymptotic_decay,
-                 neighborhood_function='gaussian', topology='rectangular',
-                 activation_distance='euclidean', random_seed=None):
+                 neighborhood_function='gaussian', random_seed=None):
         """Initializes a Self Organizing Maps.
 
         A rule of thumb to set the size of the grid for a dimensionality
@@ -115,7 +85,7 @@ class MiniSom(object):
             to the dimensions of the map.
             (at the iteration t we have sigma(t) = sigma / (1 + t/T)
             where T is #num_iteration/2)
-        learning_rate : initial learning rate
+            learning_rate, initial learning rate
             (at the iteration t we have
             learning_rate(t) = learning_rate / (1 + t/T)
             where T is #num_iteration/2)
@@ -136,17 +106,9 @@ class MiniSom(object):
             Note that if a lambda function is used to define the decay
             MiniSom will not be pickable anymore.
 
-        neighborhood_function : string, optional (default='gaussian')
-            Function that weights the neighborhood of a position in the map.
-            Possible values: 'gaussian', 'mexican_hat', 'bubble', 'triangle'
-
-        topology : string, optional (default='rectangular')
-            Topology of the map.
-            Possible values: 'rectangular', 'hexagonal'
-
-        activation_distance : string, optional (default='euclidean')
-            Distance used to activate the map.
-            Possible values: 'euclidean', 'cosine', 'manhattan', 'chebyshev'
+        neighborhood_function : function, optional (default='gaussian')
+            Function that weights the neighborhood of a position in the map
+            possible values: 'gaussian', 'mexican_hat', 'bubble'
 
         random_seed : int, optional (default=None)
             Random seed to use.
@@ -161,25 +123,16 @@ class MiniSom(object):
         self._input_len = input_len
         # random initialization
         self._weights = self._random_generator.rand(x, y, input_len)*2-1
-        self._weights /= linalg.norm(self._weights, axis=-1, keepdims=True)
+
+        for i in range(x):
+            for j in range(y):
+                # normalization
+                norm = fast_norm(self._weights[i, j])
+                self._weights[i, j] = self._weights[i, j] / norm
 
         self._activation_map = zeros((x, y))
         self._neigx = arange(x)
         self._neigy = arange(y)  # used to evaluate the neighborhood function
-
-        if topology not in ['hexagonal', 'rectangular']:
-            msg = '%s not supported only hexagonal and rectangular available'
-            raise ValueError(msg % topology)
-        self.topology = topology
-        self._xx, self._yy = meshgrid(self._neigx, self._neigy)
-        self._xx = self._xx.astype(float)
-        self._yy = self._yy.astype(float)
-        if topology == 'hexagonal':
-            self._xx[::-2] -= 0.5
-            if neighborhood_function in ['triangle']:
-                warn('triangle neighborhood function does not ' +
-                     'take in account hexagonal topology')
-
         self._decay_function = decay_function
 
         neig_functions = {'gaussian': self._gaussian,
@@ -193,73 +146,48 @@ class MiniSom(object):
                                     ', '.join(neig_functions.keys())))
 
         if neighborhood_function in ['triangle',
-                                     'bubble'] and (divmod(sigma, 1)[1] != 0
-                                                    or sigma < 1):
-            warn('sigma should be an integer >=1 when triangle or bubble' +
+                                     'bubble'] and divmod(sigma, 1)[1] != 0:
+            warn('sigma should be an integer when triangle or bubble' +
                  'are used as neighborhood function')
 
         self.neighborhood = neig_functions[neighborhood_function]
 
-        distance_functions = {'euclidean': self._euclidean_distance,
-                              'cosine': self._cosine_distance,
-                              'manhattan': self._manhattan_distance,
-                              'chebyshev': self._chebyshev_distance}
-
-        if activation_distance not in distance_functions:
-            msg = '%s not supported. Distances available: %s'
-            raise ValueError(msg % (activation_distance,
-                                    ', '.join(distance_functions.keys())))
-
-        self._activation_distance = distance_functions[activation_distance]
-
     def get_weights(self):
-        """Returns the weights of the neural network."""
+        """Returns the weights of the neural network"""
         return self._weights
-
-    def get_euclidean_coordinates(self):
-        """Returns the position of the neurons on an euclidean
-        plane that reflects the chosen topology in two meshgrids xx and yy.
-        Neuron with map coordinates (1, 4) has coordinate (xx[1, 4], yy[1, 4])
-        in the euclidean plane.
-
-        Only useful if the topology chosen is not rectangular.
-        """
-        return self._xx.T, self._yy.T
-
-    def convert_map_to_euclidean(self, xy):
-        """Converts map coordinates into euclidean coordinates
-        that reflects the chosen topology.
-
-        Only useful if the topology chosen is not rectangular.
-        """
-        return self._xx.T[xy], self._yy.T[xy]
 
     def _activate(self, x):
         """Updates matrix activation_map, in this matrix
-           the element i,j is the response of the neuron i,j to x."""
-        self._activation_map = self._activation_distance(x, self._weights)
+           the element i,j is the response of the neuron i,j to x"""
+        s = subtract(x, self._weights)  # x - w
+        it = nditer(self._activation_map, flags=['multi_index'])
+        while not it.finished:
+            # || x - w ||
+            self._activation_map[it.multi_index] = fast_norm(s[it.multi_index])
+            it.iternext()
 
     def activate(self, x):
-        """Returns the activation map to x."""
+        """Returns the activation map to x"""
         self._activate(x)
         return self._activation_map
 
     def _gaussian(self, c, sigma):
-        """Returns a Gaussian centered in c."""
-        d = 2*sigma*sigma
-        ax = exp(-power(self._xx-self._xx.T[c], 2)/d)
-        ay = exp(-power(self._yy-self._yy.T[c], 2)/d)
-        return (ax * ay).T  # the external product gives a matrix
+        """Returns a Gaussian centered in c"""
+        d = 2*pi*sigma*sigma
+        ax = exp(-power(self._neigx-c[0], 2)/d)
+        ay = exp(-power(self._neigy-c[1], 2)/d)
+        return outer(ax, ay)  # the external product gives a matrix
 
     def _mexican_hat(self, c, sigma):
-        """Mexican hat centered in c."""
-        p = power(self._xx-self._xx.T[c], 2) + power(self._yy-self._yy.T[c], 2)
-        d = 2*sigma*sigma
-        return (exp(-p/d)*(1-2/d*p)).T
+        """Mexican hat centered in c"""
+        xx, yy = meshgrid(self._neigx, self._neigy)
+        p = power(xx-c[0], 2) + power(yy-c[1], 2)
+        d = 2*pi*sigma*sigma
+        return exp(-p/d)*(1-2/d*p)
 
     def _bubble(self, c, sigma):
         """Constant function centered in c with spread sigma.
-        sigma should be an odd value.
+           sigma should be an odd value,
         """
         ax = logical_and(self._neigx > c[0]-sigma,
                          self._neigx < c[0]+sigma)
@@ -275,20 +203,6 @@ class MiniSom(object):
         triangle_y[triangle_y < 0] = 0.
         return outer(triangle_x, triangle_y)
 
-    def _cosine_distance(self, x, w):
-        num = (w * x).sum(axis=2)
-        denum = multiply(linalg.norm(w, axis=2), linalg.norm(x))
-        return 1 - num / (denum+1e-8)
-
-    def _euclidean_distance(self, x, w):
-        return linalg.norm(subtract(x, w), axis=-1)
-
-    def _manhattan_distance(self, x, w):
-        return linalg.norm(subtract(x, w), ord=1, axis=-1)
-
-    def _chebyshev_distance(self, x, w):
-        return max(subtract(x, w), axis=-1)
-
     def _check_iteration_number(self, num_iteration):
         if num_iteration < 1:
             raise ValueError('num_iteration must be > 1')
@@ -302,7 +216,7 @@ class MiniSom(object):
             raise ValueError(msg)
 
     def winner(self, x):
-        """Computes the coordinates of the winning neuron for the sample x."""
+        """Computes the coordinates of the winning neuron for the sample x"""
         self._activate(x)
         return unravel_index(self._activation_map.argmin(),
                              self._activation_map.shape)
@@ -313,38 +227,49 @@ class MiniSom(object):
         Parameters
         ----------
         x : np.array
-            Current pattern to learn.
+            Current pattern to learn
         win : tuple
-            Position of the winning neuron for x (array or tuple).
+            Position of the winning neuron for x (array or tuple)
         t : int
             Iteration index
         max_iteration : int
-            Maximum number of training itarations.
+            Maximum number of training itarations
         """
         eta = self._decay_function(self._learning_rate, t, max_iteration)
         # sigma and learning rate decrease with the same rule
         sig = self._decay_function(self._sigma, t, max_iteration)
         # improves the performances
         g = self.neighborhood(win, sig)*eta
-        # w_new = eta * neighborhood_function * (x-w)
-        self._weights += einsum('ij, ijk->ijk', g, x-self._weights)
+        it = nditer(g, flags=['multi_index'])
+
+        while not it.finished:
+            # eta * neighborhood_function * (x-w)
+            x_w = (x - self._weights[it.multi_index])
+            self._weights[it.multi_index] += g[it.multi_index] * x_w
+            # normalization
+            norm = fast_norm(self._weights[it.multi_index])
+            self._weights[it.multi_index] = self._weights[it.multi_index]/norm
+            it.iternext()
 
     def quantization(self, data):
         """Assigns a code book (weights vector of the winning neuron)
         to each sample in data."""
         self._check_input_len(data)
-        winners_coords = argmin(self._distance_from_weights(data), axis=1)
-        return self._weights[unravel_index(winners_coords,
-                                           self._weights.shape[:2])]
+        q = zeros(data.shape)
+        for i, x in enumerate(data):
+            q[i] = self._weights[self.winner(x)]
+        return q
 
     def random_weights_init(self, data):
         """Initializes the weights of the SOM
-        picking random samples from data."""
+        picking random samples from data"""
         self._check_input_len(data)
         it = nditer(self._activation_map, flags=['multi_index'])
         while not it.finished:
             rand_i = self._random_generator.randint(len(data))
             self._weights[it.multi_index] = data[rand_i]
+            norm = fast_norm(self._weights[it.multi_index])
+            self._weights[it.multi_index] = self._weights[it.multi_index]/norm
             it.iternext()
 
     def pca_weights_init(self, data):
@@ -365,122 +290,57 @@ class MiniSom(object):
                   'One of the dimensions of the map is 1.'
             warn(msg)
         pc_length, pc = linalg.eig(cov(transpose(data)))
-        pc_order = argsort(-pc_length)
+        pc_order = argsort(pc_length)
         for i, c1 in enumerate(linspace(-1, 1, len(self._neigx))):
             for j, c2 in enumerate(linspace(-1, 1, len(self._neigy))):
                 self._weights[i, j] = c1*pc[pc_order[0]] + c2*pc[pc_order[1]]
 
-    def train(self, data, num_iteration, random_order=False, verbose=False):
-        """Trains the SOM.
-
-        Parameters
-        ----------
-        data : np.array or list
-            Data matrix.
-
-        num_iteration : int
-            Maximum number of iterations (one iteration per sample).
-        random_order : bool (default=False)
-            If True, samples are picked in random order.
-            Otherwise the samples are picked sequentially.
-
-        verbose : bool (default=False)
-            If True the status of the training
-            will be printed at each iteration.
-        """
+    def train_random(self, data, num_iteration, verbose=False):
+        """Trains the SOM picking samples at random from data"""
         self._check_iteration_number(num_iteration)
         self._check_input_len(data)
-        random_generator = None
-        if random_order:
-            random_generator = self._random_generator
-        iterations = _build_iteration_indexes(len(data), num_iteration,
-                                              verbose, random_generator)
-        for t, iteration in enumerate(iterations):
-            self.update(data[iteration], self.winner(data[iteration]),
-                        t, num_iteration)
+        iterations = range(num_iteration)
         if verbose:
-            print('\n quantization error:', self.quantization_error(data))
+            iterations = _incremental_index_verbose(num_iteration)
 
-    def train_random(self, data, num_iteration, verbose=False):
-        """Trains the SOM picking samples at random from data.
-
-        Parameters
-        ----------
-        data : np.array or list
-            Data matrix.
-
-        num_iteration : int
-            Maximum number of iterations (one iteration per sample).
-
-        verbose : bool (default=False)
-            If True the status of the training
-            will be printed at each iteration.
-        """
-        self.train(data, num_iteration, random_order=True, verbose=verbose)
+        for iteration in iterations:
+            # pick a random sample
+            #rand_i = self._random_generator.randint(len(data))
+            #self.update(data[rand_i], self.winner(data[rand_i]),
+            #            iteration, num_iteration)
+            for i in data:
+                self.update(i, self.winner(i), iteration, num_iteration)
 
     def train_batch(self, data, num_iteration, verbose=False):
-        """Trains the SOM using all the vectors in data sequentially.
+        """Trains using all the vectors in data sequentially"""
+        self._check_iteration_number(num_iteration)
+        self._check_input_len(data)
+        iterations = range(num_iteration)
+        if verbose:
+            iterations = _incremental_index_verbose(num_iteration)
 
-        Parameters
-        ----------
-        data : np.array or list
-            Data matrix.
+        for iteration in iterations:
+            idx = iteration % (len(data)-1)
+            self.update(data[idx], self.winner(data[idx]),
+                        iteration, num_iteration)
 
-        num_iteration : int
-            Maximum number of iterations (one iteration per sample).
-
-        verbose : bool (default=False)
-            If True the status of the training
-            will be printed at each iteration.
-        """
-        self.train(data, num_iteration, random_order=False, verbose=verbose)
-
-    def distance_map(self, scaling='sum'):
+    def distance_map(self):
         """Returns the distance map of the weights.
-        If scaling is 'sum' (default), each cell is the normalised sum of
-        the distances between a neuron and its neighbours. Note that this
-        method uses the euclidean distance.
-
-        Parameters
-        ----------
-        scaling : string (default='sum')
-            If set to 'mean', each cell will be the normalized
-            by the average of the distances of the neighbours.
-            If set to 'sum', the normalization is done
-            by the sum of the distances.
-        """
-
-        if scaling not in ['sum', 'mean']:
-            raise ValueError(f'scaling should be either "sum" or "mean" ('
-                             f'"{scaling}" not valid)')
-
-        um = nan * zeros((self._weights.shape[0],
-                          self._weights.shape[1],
-                          8))  # 2 spots more for hexagonal topology
-
-        ii = [[0, -1, -1, -1, 0, 1, 1, 1]]*2
-        jj = [[-1, -1, 0, 1, 1, 1, 0, -1]]*2
-
-        if self.topology == 'hexagonal':
-            ii = [[1, 1, 1, 0, -1, 0], [0, 1, 0, -1, -1, -1]]
-            jj = [[1, 0, -1, -1, 0, 1], [1, 0, -1, -1, 0, 1]]
-
-        for x in range(self._weights.shape[0]):
-            for y in range(self._weights.shape[1]):
-                w_2 = self._weights[x, y]
-                e = y % 2 == 0   # only used on hexagonal topology
-                for k, (i, j) in enumerate(zip(ii[e], jj[e])):
-                    if (x+i >= 0 and x+i < self._weights.shape[0] and
-                            y+j >= 0 and y+j < self._weights.shape[1]):
-                        w_1 = self._weights[x+i, y+j]
-                        um[x, y, k] = fast_norm(w_2-w_1)
-
-        if scaling == 'mean':
-            um = nanmean(um, axis=2)
-        if scaling == 'sum':
-            um = nansum(um, axis=2)
-
-        return um/um.max()
+        Each cell is the normalised sum of the distances between
+        a neuron and its neighbours."""
+        um = zeros((self._weights.shape[0], self._weights.shape[1]))
+        it = nditer(um, flags=['multi_index'])
+        while not it.finished:
+            for ii in range(it.multi_index[0]-1, it.multi_index[0]+2):
+                for jj in range(it.multi_index[1]-1, it.multi_index[1]+2):
+                    if (ii >= 0 and ii < self._weights.shape[0] and
+                            jj >= 0 and jj < self._weights.shape[1]):
+                        w_1 = self._weights[ii, jj, :]
+                        w_2 = self._weights[it.multi_index]
+                        um[it.multi_index] += fast_norm(w_1-w_2)
+            it.iternext()
+        um = um/um.max()
+        return um
 
     def activation_response(self, data):
         """
@@ -493,62 +353,22 @@ class MiniSom(object):
             a[self.winner(x)] += 1
         return a
 
-    def _distance_from_weights(self, data):
-        """Returns a matrix d where d[i,j] is the euclidean distance between
-        data[i] and the j-th weight.
-        """
-        input_data = array(data)
-        weights_flat = self._weights.reshape(-1, self._weights.shape[2])
-        input_data_sq = power(input_data, 2).sum(axis=1, keepdims=True)
-        weights_flat_sq = power(weights_flat, 2).sum(axis=1, keepdims=True)
-        cross_term = dot(input_data, weights_flat.T)
-        return sqrt(-2 * cross_term + input_data_sq + weights_flat_sq.T)
-
     def quantization_error(self, data):
         """Returns the quantization error computed as the average
         distance between each input sample and its best matching unit."""
         self._check_input_len(data)
-        return norm(data-self.quantization(data), axis=1).mean()
+        error = 0
+        for x in data:
+            error += fast_norm(x-self._weights[self.winner(x)])
+        return error/len(data)
 
-    def topographic_error(self, data):
-        """Returns the topographic error computed by finding
-        the best-matching and second-best-matching neuron in the map
-        for each input and then evaluating the positions.
-
-        A sample for which these two nodes are not adjacent counts as
-        an error. The topographic error is given by the
-        the total number of errors divided by the total of samples.
-
-        If the topographic error is 0, no error occurred.
-        If 1, the topology was not preserved for any of the samples."""
-        self._check_input_len(data)
-        if self.topology == 'hexagonal':
-            msg = 'Topographic error not implemented for hexagonal topology.'
-            raise NotImplementedError(msg)
-        total_neurons = prod(self._activation_map.shape)
-        if total_neurons == 1:
-            warn('The topographic error is not defined for a 1-by-1 map.')
-            return nan
-
-        t = 1.42
-        # b2mu: best 2 matching units
-        b2mu_inds = argsort(self._distance_from_weights(data), axis=1)[:, :2]
-        b2my_xy = unravel_index(b2mu_inds, self._weights.shape[:2])
-        b2mu_x, b2mu_y = b2my_xy[0], b2my_xy[1]
-        dxdy = hstack([diff(b2mu_x), diff(b2mu_y)])
-        distance = norm(dxdy, axis=1)
-        return (distance > t).mean()
-
-    def win_map(self, data, return_indices=False):
-        """Returns a dictionary wm where wm[(i,j)] is a list with:
-        - all the patterns that have been mapped to the position (i,j),
-          if return_indices=False (default)
-        - all indices of the elements that have been mapped to the
-          position (i,j) if return_indices=True"""
+    def win_map(self, data):
+        """Returns a dictionary wm where wm[(i,j)] is a list
+        with all the patterns that have been mapped in the position i,j."""
         self._check_input_len(data)
         winmap = defaultdict(list)
-        for i, x in enumerate(data):
-            winmap[self.winner(x)].append(i if return_indices else x)
+        for x in data:
+            winmap[self.winner(x)].append(x)
         return winmap
 
     def labels_map(self, data, labels):
@@ -558,15 +378,11 @@ class MiniSom(object):
 
         Parameters
         ----------
-        data : np.array or list
-            Data matrix.
+        data : data matrix
 
-        label : np.array or list
-            Labels for each sample in data.
+        label : list or array that contains the label of each sample in data.
         """
         self._check_input_len(data)
-        if not len(data) == len(labels):
-            raise ValueError('data and labels must have the same length.')
         winmap = defaultdict(list)
         for x, l in zip(data, labels):
             winmap[self.winner(x)].append(l)
@@ -582,7 +398,7 @@ class TestMinisom(unittest.TestCase):
             for j in range(5):
                 # checking weights normalization
                 assert_almost_equal(1.0, linalg.norm(self.som._weights[i, j]))
-        self.som._weights = zeros((5, 5, 1))  # fake weights
+        self.som._weights = zeros((5, 5))  # fake weights
         self.som._weights[2, 3] = 5.0
         self.som._weights[1, 1] = 2.0
 
@@ -591,34 +407,6 @@ class TestMinisom(unittest.TestCase):
 
     def test_fast_norm(self):
         assert fast_norm(array([1, 3])) == sqrt(1+9)
-
-    def test_euclidean_distance(self):
-        x = zeros((1, 2))
-        w = ones((2, 2, 2))
-        d = self.som._euclidean_distance(x, w)
-        assert_array_almost_equal(d, [[1.41421356, 1.41421356],
-                                      [1.41421356, 1.41421356]])
-
-    def test_cosine_distance(self):
-        x = zeros((1, 2))
-        w = ones((2, 2, 2))
-        d = self.som._cosine_distance(x, w)
-        assert_array_almost_equal(d, [[1., 1.],
-                                      [1., 1.]])
-
-    def test_manhattan_distance(self):
-        x = zeros((1, 2))
-        w = ones((2, 2, 2))
-        d = self.som._manhattan_distance(x, w)
-        assert_array_almost_equal(d, [[2., 2.],
-                                      [2., 2.]])
-
-    def test_chebyshev_distance(self):
-        x = array([1, 3])
-        w = ones((2, 2, 2))
-        d = self.som._chebyshev_distance(x, w)
-        assert_array_almost_equal(d, [[2., 2.],
-                                      [2., 2.]])
 
     def test_check_input_len(self):
         with self.assertRaises(ValueError):
@@ -636,10 +424,6 @@ class TestMinisom(unittest.TestCase):
     def test_unavailable_neigh_function(self):
         with self.assertRaises(ValueError):
             MiniSom(5, 5, 1, neighborhood_function='boooom')
-
-    def test_unavailable_distance_function(self):
-        with self.assertRaises(ValueError):
-            MiniSom(5, 5, 1, activation_distance='ridethewave')
 
     def test_gaussian(self):
         bell = self.som._gaussian((2, 2), 1)
@@ -666,17 +450,10 @@ class TestMinisom(unittest.TestCase):
         assert winners[(2, 3)][0] == [5.0]
         assert winners[(1, 1)][0] == [2.0]
 
-    def test_win_map_indices(self):
-        winners = self.som.win_map([[5.0], [2.0]], return_indices=True)
-        assert winners[(2, 3)] == [0]
-        assert winners[(1, 1)] == [1]
-
     def test_labels_map(self):
         labels_map = self.som.labels_map([[5.0], [2.0]], ['a', 'b'])
         assert labels_map[(2, 3)]['a'] == 1
         assert labels_map[(1, 1)]['b'] == 1
-        with self.assertRaises(ValueError):
-            self.som.labels_map([[5.0]], ['a', 'b'])
 
     def test_activation_reponse(self):
         response = self.som.activation_response([[5.0], [2.0]])
@@ -686,33 +463,9 @@ class TestMinisom(unittest.TestCase):
     def test_activate(self):
         assert self.som.activate(5.0).argmin() == 13.0  # unravel(13) = (2,3)
 
-    def test_distance_from_weights(self):
-        data = arange(-5, 5).reshape(-1, 1)
-        weights = self.som._weights.reshape(-1, self.som._weights.shape[2])
-        distances = self.som._distance_from_weights(data)
-        for i in range(len(data)):
-            for j in range(len(weights)):
-                assert(distances[i][j] == norm(data[i] - weights[j]))
-
     def test_quantization_error(self):
         assert self.som.quantization_error([[5], [2]]) == 0.0
         assert self.som.quantization_error([[4], [1]]) == 1.0
-
-    def test_topographic_error(self):
-        # 5 will have bmu_1 in (2,3) and bmu_2 in (2, 4)
-        # which are in the same neighborhood
-        self.som._weights[2, 4] = 6.0
-        # 15 will have bmu_1 in (4, 4) and bmu_2 in (0, 0)
-        # which are not in the same neighborhood
-        self.som._weights[4, 4] = 15.0
-        self.som._weights[0, 0] = 14.
-        assert self.som.topographic_error([[5]]) == 0.0
-        assert self.som.topographic_error([[15]]) == 1.0
-
-        self.som.topology = 'hexagonal'
-        with self.assertRaises(NotImplementedError):
-            assert self.som.topographic_error([[5]]) == 0.0
-        self.som.topology = 'rectangular'
 
     def test_quantization(self):
         q = self.som.quantization(array([[4], [2]]))
@@ -736,7 +489,7 @@ class TestMinisom(unittest.TestCase):
         som = MiniSom(5, 5, 2, sigma=1.0, learning_rate=0.5, random_seed=1)
         data = array([[4, 2], [3, 1]])
         q1 = som.quantization_error(data)
-        som.train(data, 10)
+        som.train_batch(data, 10)
         assert q1 > som.quantization_error(data)
 
         data = array([[1, 5], [6, 7]])
@@ -748,7 +501,7 @@ class TestMinisom(unittest.TestCase):
         som = MiniSom(5, 5, 2, sigma=1.0, learning_rate=0.5, random_seed=1)
         data = array([[4, 2], [3, 1]])
         q1 = som.quantization_error(data)
-        som.train(data, 10, random_order=True)
+        som.train_random(data, 10)
         assert q1 > som.quantization_error(data)
 
         data = array([[1, 5], [6, 7]])
@@ -765,30 +518,11 @@ class TestMinisom(unittest.TestCase):
     def test_pca_weights_init(self):
         som = MiniSom(2, 2, 2)
         som.pca_weights_init(array([[1.,  0.], [0., 1.], [1., 0.], [0., 1.]]))
-        expected = array([[[0., -1.41421356], [-1.41421356, 0.]],
-                          [[1.41421356, 0.], [0., 1.41421356]]])
+        expected = array([[[0., -1.41421356], [1.41421356, 0.]],
+                          [[-1.41421356, 0.], [0., 1.41421356]]])
         assert_array_almost_equal(som._weights, expected)
 
     def test_distance_map(self):
         som = MiniSom(2, 2, 2, random_seed=1)
         som._weights = array([[[1.,  0.], [0., 1.]], [[1., 0.], [0., 1.]]])
         assert_array_equal(som.distance_map(), array([[1., 1.], [1., 1.]]))
-
-        som = MiniSom(2, 2, 2, topology='hexagonal', random_seed=1)
-        som._weights = array([[[1.,  0.], [0., 1.]], [[1., 0.], [0., 1.]]])
-        assert_array_equal(som.distance_map(), array([[.5, 1.], [1., .5]]))
-
-        som = MiniSom(3, 3, 1, random_seed=1)
-        som._weights = array([[1, 0, 1], [0, 1, 0], [1, 0, 1]])
-        dist = array([[2/3, 3/5, 2/3], [3/5, 4/8, 3/5], [2/3, 3/5, 2/3]])
-        assert_array_equal(som.distance_map(scaling='mean'), dist/max(dist))
-
-        with self.assertRaises(ValueError):
-            som.distance_map(scaling='puppies')
-
-    def test_pickling(self):
-        with open('som.p', 'wb') as outfile:
-            pickle.dump(self.som, outfile)
-        with open('som.p', 'rb') as infile:
-            pickle.load(infile)
-        os.remove('som.p')

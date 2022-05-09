@@ -35,11 +35,13 @@ from visualizations.metromap import MetroMap
 from visualizations.piechart import PieChart
 from visualizations.chessboard import Chessboard
 from visualizations.time_series import TimeSeries
+from visualizations.sky_metaphor import SkyMetaphor
+
 from skimage.transform import resize
 
 OBJECTS_CLASSES = [ComponentPlane, HitHist, UMatrix, DMatrix, UStar_PMatrix, 
                    SDH, PieChart, NeighbourhoodGraph, Chessboard, Clustering, 
-                   MetroMap, QError, TimeSeries]
+                   MetroMap, QError, TimeSeries, SkyMetaphor,]
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -56,18 +58,26 @@ _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFA
 
 class SOMToolbox():
 
-    def __init__(self, m, n, dimension, weights, input_data=None, classes=None, component_names=None):
+    def __init__(self, weights, m=None, n=None, dimension=None, input_data=None, classes=None, component_names=None):
         
         self._height = self._width = 500
         self._pipe = Pipe(data=[])
+        self._pipe_points = Pipe(data=[])
         self._pipe_paths = Pipe(data=[])
         self._visualizations = []
 
-
-        self._m = m
-        self._n = n
         self._weights = weights
-        self._dim = dimension
+        #check ratio of the input map
+        if len(self._weights.shape)==3 and m==None and n==None and dimension==None:
+            self._m = self._weights.shape[0]
+            self._n = self._weights.shape[1]
+            self._dim = self._weights.shape[2]
+            self._weights = self._weights.reshape(-1, self._dim)
+        else:
+            self._m = m
+            self._n = n
+            self._dim = dimension
+
         self._idata = input_data
         if input_data is not None:
             self._distance = np.linalg.norm(self._idata[:, None, :] - self._idata[None, :, :], axis=-1)
@@ -85,8 +95,9 @@ class SOMToolbox():
         self._Image = hv.DynamicMap(hv.Image, streams=[self._pipe]).apply.opts(cmap=self._maincontrol.param.colormap, 
             width=self._width, height=self._height, xlim=self._xlim, ylim=self._ylim)
         self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(line_width=1, color='red')
+        self._Points = hv.DynamicMap(hv.Points, streams=[self._pipe_points]).opts(color='yellow', size=1, marker='asterisk')
         
-        self._pdmap = pn.Column(self._Image * self._Paths)
+        self._pdmap = pn.Column(self._Image * self._Paths * self._Points)
 
         self._controls = pn.Row()
         self._timeseries = pn.Row()
@@ -106,6 +117,7 @@ class SOMToolbox():
             self._visualizations.append(MetroMap(self))
             self._visualizations.append(QError(self))
             self._visualizations.append(TimeSeries(self))     
+            self._visualizations.append(SkyMetaphor(self)) 
 
         self._visualizations[0]._activate_controllers()
     
@@ -167,16 +179,20 @@ class SOMToolbox():
 
         return [x,y]
 
-    def _display(self, plot=None, paths=None):
+    def _display(self, plot=None, paths=None, points=None):
         if plot is not None: 
-            self._plot = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
+            figure = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
+            if self._m==1: figure  = np.vstack([plot, plot])
+            if self._n==1:  figure = np.c_[plot, plot]
+            self._plot = figure
             if self._maincontrol.interpolation: 
                 self._pipe.send(resize(self._plot, (1000, 1000)))
             else:
                 self._pipe.send(self._plot)
-            
         if paths is not None:
             self._pipe_paths.send(paths)
+        if points is not None:
+            self._pipe_points.send(points)
 
     def _onbigscreen(self,):
         pn.serve(self._mainview) #, start=False, show=False

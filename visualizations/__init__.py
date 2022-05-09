@@ -1,1 +1,1 @@
-__all__ = ['iVisualization','complane','dmatrix','hithistogram', 'sdh', 'qerror', 'upmatrix']
+__all__ = ['iVisualization','complane','dmatrix','hithistogram', 'sdh', 'qerror', 'upmatrix', 'SkyMetaphor']
