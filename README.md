@@ -12,6 +12,6 @@ The picture bellow represents visualiztion algorithm on weather forecast data. T
   <li>KT - Insolation Clearness Index (dimensionless)</li>
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
- <p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.JPG" width=550/></p>
+ <p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.PNG" width=550/></p>
  
  The basic example could be find in jupyter notebook timeseries.
