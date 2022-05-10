@@ -17,9 +17,11 @@ class TimeSeries(VisualizationInterface):
         self._controls = TimeSeriesController(self._calculate, len(self._main._idata), name='Time serries')
 
     def _activate_controllers(self, ):
-        self._main._controls.append(pn.Column(self._controls))
+        self._main._controls.append(pn.Column(self._controls, self._main._point_segment_options))
+
         cmin, cmax = self._main._pipe.data.min(), self._main._pipe.data.max()
         bmu, curve = self._get_projection()
+
         Points = hv.Points(bmu, vdims='color').apply.opts(color='color', cmap=self._main._maincontrol.param.colormap, clim=(cmin, cmax), show_legend=False)#.opts(color='color', cmap=self._main._maincontrol.param.colormap, clim=(cmin, cmax))
         Curve  = hv.Curve(curve).apply.opts(color='red', visible=self._controls.param.alpha, 
                                             xlim=self._controls.param.Xrange, alpha=self._controls.param.alpha,
@@ -28,8 +30,9 @@ class TimeSeries(VisualizationInterface):
 
     def _deactivate_controllers(self,):
         self._main._pipe_paths.send([])
+        self._main._pipe_points.send([])        
         self._main._timeseries.clear() 
-        self._main._pdmap[0] = pn.Column(self._main._Image * self._main._Paths)
+        self._main._pdmap[0] = pn.Column(self._main._Image * self._main._Paths * self._main._Points)
     
     def _get_projection(self,):
         bmu = np.apply_along_axis(lambda x: np.argmin( np.linalg.norm(self._main._weights - x.reshape((1, self._main._dim)), axis=1)), 1, self._main._idata)
@@ -44,10 +47,13 @@ class TimeSeries(VisualizationInterface):
     def _calculate(self, ): 
         trajectory = []
         points = []
-        if self._controls.trajectory:
+        if self._controls.projection != '-':
             borders = self._controls.Xrange 
             bmu = np.apply_along_axis(lambda x: np.argmin( np.linalg.norm(self._main._weights - x.reshape((1, self._main._dim)), axis=1)), 1, self._main._idata[int(borders[0]):int(borders[1])])
             trajectory = [self._main._get_neuron_xy(bmu[i-1])+self._main._get_neuron_xy(bmu[i]) for i in range(1, len(bmu))]
             points = [self._main._get_neuron_xy(b) for b in bmu]
-        #self._main._pipe_paths.send(trajectory)
-        self._main._display(points=points)
+            if self._controls.projection == 'Points':     self._main._display(paths=[], points=points)
+            else:                                         self._main._display(paths=trajectory, points=[])
+        else:
+            self._main._display(paths=[], points=[])
+            self._main._display(paths=[], points=[])

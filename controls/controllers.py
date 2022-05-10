@@ -50,7 +50,6 @@ class MainController(param.Parameterized):
         self._interpolation = interpolation
         self._rotate = rotate
     
-    
     @param.depends("interpolation", watch=True)
     def _interpolation(self):
         self._interpolation()
@@ -251,27 +250,41 @@ class ChessboardController(param.Parameterized):
     def _change_parameters(self,):
         self._calculate()
         
+COLOR_POINTS = ['blue','yellow','white','red']
+MARKER_POINTS = ['circle','asterisk','cross']
+class PointOptions(param.Parameterized):
+    color  = param.ObjectSelector(default='red', objects=COLOR_POINTS, label='Color')
+    marker = param.ObjectSelector(default='asterisk', objects=MARKER_POINTS, label='Marker')
+    size   = param.Integer(2, bounds=(0, None), label='Size')
+
+class SegmentOptions(param.Parameterized):
+    color  = param.ObjectSelector(default='red', objects=['red'], label='Color')
+    size   = param.Integer(2, bounds=(0, None), label='Size')
+
+
 class TimeSeriesController(param.Parameterized):
     
-    Xrange      = param.Range(default=(0,10), bounds=(0,None), softbounds=(None,100), label='X-range')
-    alpha       = param.Boolean(False, label='Avarage curve')#, precedence=-1)
-    trajectory  = param.Boolean(False, label='Trajectory')
+    Xrange          = param.Range(default=(0,10), bounds=(0,None), softbounds=(None,100), label='X-range')
+    alpha           = param.Boolean(False, label='Avarage curve')#, precedence=-1)
+    projection      = param.ObjectSelector(default='-', objects=['-', 'Points', 'Trajectory'], label='Projection type')
 
-    def __init__(self, calculate, uborder,  **params):
+    def __init__(self, calculate, uborder, **params):
         super(TimeSeriesController, self).__init__(**params)
         self.param.Xrange.softbounds = (None, uborder)
-        #self.param.Xrange.default = (int(uborder/3),int(uborder/3)*2)
         self._calculate = calculate
 
-    @param.depends("Xrange", "trajectory", watch=True)
+    @param.depends("Xrange", watch=True)
     def change_range(self,):
         self._calculate()
 
-star_color = ['white', 'yellow', 'blue']
+    @param.depends("projection", watch=True)
+    def change_trajectory(self,):
+        self._calculate()
+
 class SkyMetaphorController(param.Parameterized):
     smooth_factor = param.Integer(3, bounds=(0, 20), label='Smoothing factor')
     pull_force = param.Number(0.25, bounds=(0, 0.80), step=0.01, label='Pull force')
-    colormap = param.ObjectSelector(default='yellow', objects=star_color, label='Stars color')
+
     def __init__(self, calculate, **params):
         super(SkyMetaphorController, self).__init__(**params)
         self._calculate = calculate

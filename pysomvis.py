@@ -19,7 +19,7 @@ import holoviews as hv
 from holoviews import opts
 from holoviews.streams import Pipe, Buffer
 
-from controls.controllers import MainController
+from controls.controllers import MainController, PointOptions, SegmentOptions
 hv.extension('bokeh')
 
 from visualizations.complane import ComponentPlane
@@ -56,7 +56,7 @@ _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFA
               '#C000C0','#00C0C0','#404040','#FF4040','#4040FF','#40FF40','#FFFF40','#FF40FF',
               '#40FFFF','#C0C0C0','#800000','#000080']
 
-class SOMToolbox():
+class PySOMVis():
 
     def __init__(self, weights, m=None, n=None, dimension=None, input_data=None, classes=None, component_names=None):
         
@@ -87,6 +87,9 @@ class SOMToolbox():
 
         self._plot = None
         self._maincontrol = MainController(self._interpolation, self._rotate, self._visualizations, OBJECTS_CLASSES, name='')
+        self._pointoptions = PointOptions(name="Points")        
+        self._segmentoptions = SegmentOptions(name="Segments")
+        self._point_segment_options = pn.Tabs(self._pointoptions, self._segmentoptions)
         self._mainp = pn.Column(pn.panel(self._maincontrol, default_layout=pn.Row, width=700))
 
         self._xlim = (-.5*self._m/self._n,.5*self._m/self._n) if self._m>self._n else (-.5,.5)
@@ -94,8 +97,10 @@ class SOMToolbox():
         #_COLOURS_93
         self._Image = hv.DynamicMap(hv.Image, streams=[self._pipe]).apply.opts(cmap=self._maincontrol.param.colormap, 
             width=self._width, height=self._height, xlim=self._xlim, ylim=self._ylim)
-        self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(line_width=1, color='red')
-        self._Points = hv.DynamicMap(hv.Points, streams=[self._pipe_points]).opts(color='yellow', size=1, marker='asterisk')
+        self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(line_width=self._segmentoptions.param.size, 
+                                                                                                                    color=self._segmentoptions.param.color)
+        self._Points = hv.DynamicMap(hv.Points, streams=[self._pipe_points]).apply.opts(size=self._pointoptions.param.size, color=self._pointoptions.param.color,
+                                                                                                                    marker=self._pointoptions.param.marker)
         
         self._pdmap = pn.Column(self._Image * self._Paths * self._Points)
 

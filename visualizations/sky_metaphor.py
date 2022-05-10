@@ -18,7 +18,7 @@ class SkyMetaphor(VisualizationInterface):
         self._previous_color = self._main._maincontrol.colormap
         self._main._maincontrol.colormap = 'gist_gray'
         reference = pn.pane.Str("<ul><li>Sky-metaphor visualisation for self-organising maps.</b> Latif, K., Mayer, R. \"I-KNOW '07: 7th international conference on knowledge management.\" In Proc. of I-KNOW07, 2007, pp. 400-407, Graz, Austria</li></ul>")
-        self._main._controls.append(pn.Column(self._controls, reference))
+        self._main._controls.append(pn.Column(self._controls, self._main._point_segment_options, reference))
         self._calculate(self._controls.smooth_factor, self._controls.pull_force)
 
     def _deactivate_controllers(self, ):
