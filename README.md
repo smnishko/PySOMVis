@@ -10,6 +10,8 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
  Here we can observ the 1 year forecast projection
- <p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.PNG" width=550/>/brThe following plot represents projection over all dataset. /br<img src="PySOMVis/pics/35years_Taxis.png" width=550/></p>
+<p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.PNG" width=550/>
+</br>The following plot represents projection over all dataset.</br>
+<img src="PySOMVis/pics/35years_Taxis.png" width=550/></p>
  
  
