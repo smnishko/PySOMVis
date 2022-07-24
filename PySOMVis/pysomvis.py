@@ -36,12 +36,17 @@ from visualizations.piechart import PieChart
 from visualizations.chessboard import Chessboard
 from visualizations.time_series import TimeSeries
 from visualizations.sky_metaphor import SkyMetaphor
+from visualizations.topographic_error import TopographicError
+from visualizations.intrinsic_distance import IntrinsicDistance
+from visualizations.activityhist import ActivityHist
+from visualizations.minimumSpanningTree import MinimumSpanningTree
 
 from skimage.transform import resize
 
 OBJECTS_CLASSES = [ComponentPlane, HitHist, UMatrix, DMatrix, UStar_PMatrix, 
                    SDH, PieChart, NeighbourhoodGraph, Chessboard, Clustering, 
-                   MetroMap, QError, TimeSeries, SkyMetaphor,]
+                   MetroMap, QError, TimeSeries, SkyMetaphor, TopographicError,
+                   IntrinsicDistance, ActivityHist, MinimumSpanningTree]
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -79,8 +84,10 @@ class PySOMVis():
             self._dim = dimension
 
         self._idata = input_data
+        
         if input_data is not None:
             self._distance = np.linalg.norm(self._idata[:, None, :] - self._idata[None, :, :], axis=-1)
+        
         if classes is not None: self._classes = classes.astype(int) 
         else:       self._classes = classes
         self._component_names = component_names
@@ -123,7 +130,11 @@ class PySOMVis():
             self._visualizations.append(QError(self))
             self._visualizations.append(TimeSeries(self))     
             self._visualizations.append(SkyMetaphor(self)) 
+            self._visualizations.append(TopographicError(self)) 
+            self._visualizations.append(IntrinsicDistance(self)) 
+            self._visualizations.append(ActivityHist(self))
 
+        self._visualizations.append(MinimumSpanningTree(self))
         self._visualizations[0]._activate_controllers()
     
     def _rotate(self, k):

@@ -5,7 +5,8 @@ from bokeh.palettes import Greys256
 OBJECTS_ALL = {'Component Planes': 0, 'Hit Histogram': 1, 'U-matrix': 2, 'D-Matrix': 3,  
                'P-matrix & U*-matrix': 4, 'Smoothed Data Histograms': 5, 'Pie Chart': 6, 
                'Neighbourhood Graph': 7, 'Chessboard': 8, 'Clustering': 9, 'Metro Map': 10, 
-               'Quantization Error': 11,  'Time Series': 12,  'Sky Metaphor': 13} 
+               'Quantization Error': 11,  'Time Series': 12,  'Sky Metaphor': 13, 'Topographic error': 14, 'Intrinsic distance':15,
+               'Activity Histogram':16, 'Minimum Spanning Tree':17 } 
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -296,3 +297,61 @@ class SkyMetaphorController(param.Parameterized):
     @param.depends("smooth_factor", watch=True)
     def _change_smooth_factor(self, ):
         self._calculate(self.smooth_factor, None)        
+
+class TopographicErrorController(param.Parameterized):
+
+
+    NEIGHBOORHOODS = {'4-Unit Neighboorhood': 4, '8-Unit Neighboorhood': 8}
+    neighborhood = param.ObjectSelector(default=4, objects=NEIGHBOORHOODS)
+    
+    def __init__(self, calculate,  **params):
+        super(TopographicErrorController, self).__init__(**params)
+        self._calculate = calculate
+    
+    @param.depends("neighborhood", watch=True)
+    def _change_neighborhood(self,):
+        self._calculate(self.neighborhood)        
+
+
+class ActivityHistController(param.Parameterized):
+
+    idx_vec = param.Integer(0, bounds=(0, None), label='Input vector')
+
+    def __init__(self, calculate, bounds, **params):
+        super(ActivityHistController, self).__init__(**params)
+        self.param.idx_vec.bounds = bounds
+        self._calculate = calculate    
+
+    @param.depends("idx_vec", watch=True)
+    def _change_vector(self,):
+        self._calculate(self.idx_vec)      
+
+
+class minimumSpanningTreeController(param.Parameterized):
+
+    CONNECTIONTYPE  = {'All': 0, 'Diagonal': 1, 'Direct': 2, 'MST input data': 3}
+    connection_type = param.ObjectSelector(default=0, objects=CONNECTIONTYPE, label='Connection type')
+    weighted_lines  = param.Boolean(False, label='Weighted line width')
+    only_activated = param.Boolean(False, label='Skip interp. Units')
+
+    def __init__(self, calculate, **params):
+        super(minimumSpanningTreeController, self).__init__(**params)
+        self._calculate = calculate    
+
+    @param.depends("connection_type", watch=True)
+    def _change_connection_type(self,):
+        if self.connection_type == 3:
+            self.param['weighted_lines'].constant = True
+            self.param['only_activated'].constant = True
+        else:
+            self.param['weighted_lines'].constant = False
+            self.param['only_activated'].constant = False           
+        self._calculate(self.connection_type, self.weighted_lines)           
+
+    @param.depends("weighted_lines", watch=True)
+    def _change_weighted_lines(self,):
+        self._calculate(self.connection_type, self.weighted_lines)           
+
+    @param.depends("only_activated", watch=True)
+    def _change_only_activated(self,):
+        self._calculate(self.connection_type, self.weighted_lines)                           
