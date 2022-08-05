@@ -1,0 +1,8 @@
+outputDirectory=../maps/10clusters
+namePrefix=10clusters
+vectorFileName=10clusters.vec
+templateFileName=10clusters.tv
+xSize=10
+ySize=10
+learnRate=0.7
+numCycles=1000

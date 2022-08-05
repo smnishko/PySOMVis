@@ -11,7 +11,7 @@ class ActivityHist(VisualizationInterface):
 
     def _activate_controllers(self, ):
         reference = pn.pane.Str("Sclising wight's vector accrodying it's components")
-        self._main._controls.append(pn.Column(self._controls))
+        self._main._controls.append(pn.Column(self._controls, reference))
         self._calculate(self._controls.idx_vec)        
 
     def _deactivate_controllers(self,):

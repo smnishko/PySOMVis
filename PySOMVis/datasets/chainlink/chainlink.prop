@@ -1,0 +1,9 @@
+outputDirectory=../maps/chainlink
+namePrefix=chainlink
+vectorFileName=chainlink.vec
+templateFileName=chainlink.tv
+xSize=12
+ySize=18
+learnRate=0.7
+numIterations=10000
+sigma=7

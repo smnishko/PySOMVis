@@ -6,7 +6,7 @@ OBJECTS_ALL = {'Component Planes': 0, 'Hit Histogram': 1, 'U-matrix': 2, 'D-Matr
                'P-matrix & U*-matrix': 4, 'Smoothed Data Histograms': 5, 'Pie Chart': 6, 
                'Neighbourhood Graph': 7, 'Chessboard': 8, 'Clustering': 9, 'Metro Map': 10, 
                'Quantization Error': 11,  'Time Series': 12,  'Sky Metaphor': 13, 'Topographic error': 14, 'Intrinsic distance':15,
-               'Activity Histogram':16, 'Minimum Spanning Tree':17 } 
+               'Activity Histogram':16, 'Minimum Spanning Tree':17, 'Cluster Connection': 18, 'Mnemonic SOM': 19} 
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -259,7 +259,7 @@ class PointOptions(param.Parameterized):
     size   = param.Integer(2, bounds=(0, None), label='Size')
 
 class SegmentOptions(param.Parameterized):
-    color  = param.ObjectSelector(default='red', objects=['red'], label='Color')
+    color  = param.ObjectSelector(default='red', objects=['red', 'black'], label='Color')
     size   = param.Integer(2, bounds=(0, None), label='Size')
 
 
@@ -327,7 +327,7 @@ class ActivityHistController(param.Parameterized):
         self._calculate(self.idx_vec)      
 
 
-class minimumSpanningTreeController(param.Parameterized):
+class MinimumSpanningTreeController(param.Parameterized):
 
     CONNECTIONTYPE  = {'All': 0, 'Diagonal': 1, 'Direct': 2, 'MST input data': 3}
     connection_type = param.ObjectSelector(default=0, objects=CONNECTIONTYPE, label='Connection type')
@@ -335,7 +335,7 @@ class minimumSpanningTreeController(param.Parameterized):
     only_activated = param.Boolean(False, label='Skip interp. Units')
 
     def __init__(self, calculate, **params):
-        super(minimumSpanningTreeController, self).__init__(**params)
+        super(MinimumSpanningTreeController, self).__init__(**params)
         self._calculate = calculate    
 
     @param.depends("connection_type", watch=True)
@@ -355,3 +355,56 @@ class minimumSpanningTreeController(param.Parameterized):
     @param.depends("only_activated", watch=True)
     def _change_only_activated(self,):
         self._calculate(self.connection_type, self.weighted_lines)                           
+
+
+class ClusterConnectionController(param.Parameterized):
+
+    t1 = param.Number(0.00, bounds=(0.00, 2.00), step=0.01)
+    t2 = param.Number(0.00, bounds=(0.00, 2.00), step=0.01)
+    t3 = param.Number(0.00, bounds=(0.00, 2.00), step=0.01)
+
+    def __init__(self, calculate, **params):
+        super(ClusterConnectionController, self).__init__(**params)
+        self._calculate = calculate 
+
+    @param.depends("t1", watch=True)
+    def _change_t1(self,):
+        if self.t1>self.t2: self.t2=self.t1
+        self._calculate(None, self.t1, self.t2, self.t3)
+
+    @param.depends("t2", watch=True)
+    def _change_t2(self,):
+        if self.t2>self.t3: self.t3=self.t2        
+        if self.t2<self.t1: self.t1=self.t2
+        self._calculate(None, self.t1, self.t2, self.t3)
+
+
+    @param.depends("t3", watch=True)
+    def _change_t3(self,):
+        if self.t3<self.t2: self.t2=self.t3
+        self._calculate(None, self.t1, self.t2, self.t3)
+
+
+SILUETTES = {'Stick figure': 'mnemonics/siluettes/stick_figure.png',
+             'Rectangle'   : 'mnemonics/siluettes/rectangle.png',
+             'Round'       : 'mnemonics/siluettes/round.png',
+             'Walking icon': 'mnemonics/siluettes/walking_icon.png'} 
+class MnemonicSOMController(param.Parameterized):
+    M = param.Integer(10)
+    N = param.Integer(10)
+    epochs = param.Integer(10)
+    initial_radius = param.Number(1.00, bounds=(0.00, None), step=0.1)
+    radius_decay = param.Number(10, bounds=(0.0, None), step=0.1)
+    learning_rate_decay = param.Number(10, bounds=(0.0, None), step=0.1)
+    initial_learning_rate = param.Number(0.1, bounds=(0.0, None), step=0.1)
+    siluette = param.ObjectSelector(default='mnemonics/siluettes/stick_figure.png', objects=SILUETTES, label='')
+    somtrain  = param.Action(lambda x: x.param.trigger('somtrain'), label='Train SOM')
+    #flip_h   = param.Action(lambda x: x.param.trigger('flip_h'),   label='↔')
+    def __init__(self, calculate, **params):
+        super(MnemonicSOMController, self).__init__(**params)
+        self._calculate = calculate 
+
+    @param.depends('somtrain', watch=True)
+    def trainMnemonicSOM(self):
+        self._calculate()
+

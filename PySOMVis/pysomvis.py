@@ -40,13 +40,14 @@ from visualizations.topographic_error import TopographicError
 from visualizations.intrinsic_distance import IntrinsicDistance
 from visualizations.activityhist import ActivityHist
 from visualizations.minimumSpanningTree import MinimumSpanningTree
-
+from visualizations.cluster_connection import ClusterConnection
+from mnemonics.mnemonicSOM import MnemonicSOM
 from skimage.transform import resize
 
 OBJECTS_CLASSES = [ComponentPlane, HitHist, UMatrix, DMatrix, UStar_PMatrix, 
                    SDH, PieChart, NeighbourhoodGraph, Chessboard, Clustering, 
                    MetroMap, QError, TimeSeries, SkyMetaphor, TopographicError,
-                   IntrinsicDistance, ActivityHist, MinimumSpanningTree]
+                   IntrinsicDistance, ActivityHist, MinimumSpanningTree, ClusterConnection, MnemonicSOM]
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -104,7 +105,7 @@ class PySOMVis():
         #_COLOURS_93
         self._Image = hv.DynamicMap(hv.Image, streams=[self._pipe]).apply.opts(cmap=self._maincontrol.param.colormap, 
             width=self._width, height=self._height, xlim=self._xlim, ylim=self._ylim)
-        self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(line_width=self._segmentoptions.param.size, 
+        self._Paths = hv.DynamicMap(hv.Segments, streams=[self._pipe_paths]).apply.opts(alpha='alpha', line_width=self._segmentoptions.param.size, 
                                                                                                                     color=self._segmentoptions.param.color)
         self._Points = hv.DynamicMap(hv.Points, streams=[self._pipe_points]).apply.opts(size=self._pointoptions.param.size, color=self._pointoptions.param.color,
                                                                                                                     marker=self._pointoptions.param.marker)
@@ -135,6 +136,8 @@ class PySOMVis():
             self._visualizations.append(ActivityHist(self))
 
         self._visualizations.append(MinimumSpanningTree(self))
+        self._visualizations.append(ClusterConnection(self))
+        self._visualizations.append(MnemonicSOM(self))
         self._visualizations[0]._activate_controllers()
     
     def _rotate(self, k):
