@@ -13,11 +13,14 @@ class SOMToolBox_Parse:
         if self.filename[-3:len(self.filename)] == '.gz':
             with gzip.open(self.filename, 'rb') as file:
                 df = self._read_vector_file_to_df(df, file)
+            df['arr'] = np.rot90(df['arr'].reshape(df['ydim'],df['xdim'],df['vec_dim'])).reshape(-1,df['vec_dim']) #rotate matrix because of SOMToolbox format
+
         else:
             with open(self.filename, 'rb') as file:
                 df = self._read_vector_file_to_df(df, file)
 
-        file.close()            
+        file.close()
+
         return df
     
     def _read_vector_file_to_df(self, df, file):

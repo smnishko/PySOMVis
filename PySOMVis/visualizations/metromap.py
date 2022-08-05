@@ -35,8 +35,8 @@ class MetroMap(VisualizationInterface):
 		    for line in raw_solutions:
 			    _snapped_lines.append(self._find_snapped_line(line))
 
-		    self._raw_solutions = self._rotate(np.array(raw_solutions))
-		    self._snapped_lines = self._rotate(np.array(_snapped_lines))
+		    self._raw_solutions = np.array(raw_solutions)#self._rotate(np.array(raw_solutions))
+		    self._snapped_lines = np.array(_snapped_lines)#self._rotate(np.array(_snapped_lines))
 
 
 	    lines = None 

@@ -1,7 +1,6 @@
 from visualizations.iVisualization import VisualizationInterface
 from controls.controllers import ComPlaneController
 import panel as pn
-import numpy as np
 
 class ComponentPlane(VisualizationInterface):
     
@@ -14,12 +13,12 @@ class ComponentPlane(VisualizationInterface):
         self._main._controls.append(pn.Column(self._controls, reference, name='' ))
         self._calculate(self._controls.component)
         
-    def _calculate(self, component):
-        if self._main._component_names: 
-            self._main._controls[0][0][1].name = self._main._component_names[self._controls.component]
-        
-        plot = self._main._weights[:,component].reshape(self._main._m,self._main._n)
-        self._main._display(plot=plot)
-
     def _deactivate_controllers(self,):
         pass
+
+    def _calculate(self, component):
+        if self._main._component_names is not None: 
+            self._main._controls[0][0][1].name = self._main._component_names[self._controls.component]
+        
+        plot = self._main._weights[:,component].reshape(self._main._m, self._main._n)
+        self._main._display(plot=plot)

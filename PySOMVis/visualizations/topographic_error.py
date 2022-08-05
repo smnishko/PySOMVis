@@ -49,7 +49,7 @@ class TopographicError(VisualizationInterface):
         topoerror[units_with_error_mask] = n_2nd_best_not_neighbor[units_with_error_mask]
         
         #display only mapped neurons 
-        topoerror = topoerror.reshape(self._main._m, self._main._n) * np.rot90(hist.reshape(self._main._m, self._main._n))
+        topoerror = topoerror.reshape(self._main._m, self._main._n) * hist.reshape(self._main._m, self._main._n) #np.rot90(hist.reshape(self._main._m, self._main._n))
 
         self._main._display(plot=topoerror)
 

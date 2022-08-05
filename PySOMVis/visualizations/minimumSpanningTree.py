@@ -16,7 +16,7 @@ class MinimumSpanningTree(VisualizationInterface):
         for vector in self._main._idata: 
             idx_best = np.argmin(np.linalg.norm(self._main._weights - vector, axis=1))
             self._activated_unites[idx_best] = 1
-        self._activated_unites = np.rot90(self._activated_unites.reshape(self._main._m , self._main._n)).flatten()
+        #self._activated_unites = np.rot90(self._activated_unites.reshape(self._main._m , self._main._n)).flatten()
         self._activated_unites = np.argwhere(self._activated_unites>0).flatten()
             
     def _activate_controllers(self, ):

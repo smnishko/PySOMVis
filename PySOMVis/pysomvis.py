@@ -91,7 +91,9 @@ class PySOMVis():
         
         if classes is not None: self._classes = classes.astype(int) 
         else:       self._classes = classes
-        self._component_names = component_names
+        if component_names is not None: self._component_names = component_names
+        else:                           self._component_names = None
+
 
         self._plot = None
         self._maincontrol = MainController(self._interpolation, self._rotate, self._visualizations, OBJECTS_CLASSES, name='')
@@ -200,14 +202,13 @@ class PySOMVis():
 
     def _display(self, plot=None, paths=None, points=None):
         if plot is not None: 
-            figure = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
-            if self._m==1: figure  = np.vstack([plot, plot])
-            if self._n==1:  figure = np.c_[plot, plot]
-            self._plot = figure
+            #figure = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
+            if self._m==1:  plot = np.vstack([plot, plot])  # hv.Image doesn't work with one line input
+            if self._n==1:  plot = np.c_[plot, plot]        # hv.Image doesn't work with one line input
             if self._maincontrol.interpolation: 
-                self._pipe.send(resize(self._plot, (1000, 1000)))
+                self._pipe.send(resize(plot, (1000, 1000)))
             else:
-                self._pipe.send(self._plot)
+                self._pipe.send(plot)
         if paths is not None:
             self._pipe_paths.send(paths)
         if points is not None:
