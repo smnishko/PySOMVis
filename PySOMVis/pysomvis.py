@@ -173,18 +173,6 @@ class PySOMVis():
         x = scale(-0.5, 0.5, x, -0.5, self._n-0.5)
         return x, -1*y
 
-#    def _from_xy_to_neuron(self, pos_xy):
-#        return int(pos_xy[0] * self._m + pos_xy[1])
-
-#    def _get_xy(self, p):
-        #if we want to scale into [b-a]: (b-a)*((x-min)/(max-min))+a
-#        scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx))+a
-
-#        y = scale(-0.5, 0.5, p[1], -0.5, self._m-0.5)
-#        x = scale(-0.5, 0.5, p[0], -0.5, self._n-0.5)
-
-#        return x, -1*y
-
     def _display(self, plot=None, paths=None, points=None):
         if plot is not None: 
             #figure = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
