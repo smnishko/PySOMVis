@@ -96,7 +96,7 @@ class PySOMVis():
 
 
         self._plot = None
-        self._maincontrol = MainController(self._interpolation, self._rotate, self._visualizations, OBJECTS_CLASSES, name='')
+        self._maincontrol = MainController(self._interpolation, self._rotate, self._flip, self._visualizations, OBJECTS_CLASSES, name='')
         self._pointoptions = PointOptions(name="Points")        
         self._segmentoptions = SegmentOptions(name="Segments")
         self._point_segment_options = pn.Tabs(self._pointoptions, self._segmentoptions)
@@ -143,20 +143,20 @@ class PySOMVis():
         self._visualizations[0]._activate_controllers()
     
     def _rotate(self, k):
-        if self._m!=self._n: #in case SOM's sides are not equal
-            self._xlim, self._ylim = self._ylim, self._xlim
-            self._pdmap[0] = pn.Column(self._Image.opts(xlim=self._xlim, ylim=self._ylim) * self._Paths)       
-        
-        self._plot = np.rot90(self._plot, k=k, axes=(1,0))
-        
-        paths_rotated = []
-        paths_old = self._pipe_paths.data if type(self._pipe_paths.data)==list else [self._pipe_paths.data] #check if only 1 path
-        for p in paths_old:
-            if k>0:  paths_rotated.append((p[1], -1*p[0], p[3], -1*p[2])) #clockwise
-            if k<0:  paths_rotated.append((-1*p[1], p[0], -1*p[3], p[2])) #counter clockwise
+        self._weights = np.rot90(self._weights.reshape(self._m, self._n, self._dim), k).reshape(-1,self._dim)
+        self._pipe.send(np.rot90(self._pipe.data, k))
+        if self._m != self._n: 
+            self._m, self._n = self._n, self._m
+            self._ylim, self._xlim = self._xlim, self._ylim
+            self._pdmap[0] = pn.Column(self._Image.opts(xlim=self._xlim, ylim=self._ylim) * self._Points * self._Paths)
 
-        self._pipe.send(np.rot90(self._pipe.data, k=k, axes=(1,0)))
-        self._pipe_paths.send(paths_rotated)
+    def _flip(self, horizontal):
+        if horizontal:
+            self._weights = np.fliplr(self._weights.reshape(self._m, self._n, self._dim)).reshape(-1,self._dim)
+            self._pipe.send(np.fliplr(self._pipe.data))
+        else:
+            self._weights = np.flipud(self._weights.reshape(self._m, self._n, self._dim)).reshape(-1,self._dim)
+            self._pipe.send(np.flipud(self._pipe.data))
 
     def _interpolation(self, ):
         if self._maincontrol.interpolation:
@@ -164,41 +164,26 @@ class PySOMVis():
         else:
             self._pipe.send(self._plot)
 
-    def _get_neuron_xy(self, neuron):
-        rotation = self._maincontrol._orientation%4
-        
-        if (rotation == 2 or rotation == 0): m, n = self._m, self._n 
-        else:                                m, n = self._n, self._m
-        
-        i, j = neuron//n, neuron%n
-        ir, jr = i, j                                 #if clockwise rotated 0
+    def _convert_to_xy(self, neuron=None, point2D=None):
+        scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx))+a  # adjust to -0.5 to 0.5 because of holoviews Image
+        y, x = 0, 0
+        if neuron is not None:   y, x = np.unravel_index(neuron, (self._m, self._n))
+        if point2D is not None:  y, x = point2D[1], point2D[0]
+        y = scale(-0.5, 0.5, y, -0.5, self._m-0.5)
+        x = scale(-0.5, 0.5, x, -0.5, self._n-0.5)
+        return x, -1*y
 
-        if rotation==1: ir, jr = j,   self._m-i       #if clockwise rotated 90
-        if rotation==2: ir, jr = self._m-i, self._n-j #if clockwise rotated 180
-        if rotation==3: ir, jr = self._n-j, i         #if clockwise rotated 270
-        
-        diffx = 1/n if (rotation == 3 or rotation == 0) else -1/n
-        diffy = 1/m if (rotation == 3 or rotation == 2) else -1/m
-        
-        x, y = -0.5 + diffx/2 + jr*(1/n), 0.5 + diffy/2 - ir*(1/m)
-        return x, y
+#    def _from_xy_to_neuron(self, pos_xy):
+#        return int(pos_xy[0] * self._m + pos_xy[1])
 
-    def _from_xy_to_neuron(self, pos_xy):
-        return int(pos_xy[0] * self._m + pos_xy[1])
-
-    def _get_xy(self, p):
-        rotation = self._maincontrol._orientation%4
-        
-        if (rotation == 2 or rotation == 0): m, n = self._m, self._n 
-        else:                                m, n = self._n, self._m
-
+#    def _get_xy(self, p):
         #if we want to scale into [b-a]: (b-a)*((x-min)/(max-min))+a
-        scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx))+a
+#        scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx))+a
 
-        x = scale(-0.5, 0.5, p[0], -0.5, n-0.5)    #-.45 + (.95/(n-.5))*(p[0]-0)
-        y = scale(-0.5, 0.5, p[1], -0.5, m-0.5)   #-0.45 + ((0.5+0.45)/(m-0))*(p[1]-0)
+#        y = scale(-0.5, 0.5, p[1], -0.5, self._m-0.5)
+#        x = scale(-0.5, 0.5, p[0], -0.5, self._n-0.5)
 
-        return [x,y]
+#        return x, -1*y
 
     def _display(self, plot=None, paths=None, points=None):
         if plot is not None: 

@@ -30,13 +30,13 @@ class MetroMap(VisualizationInterface):
 
 	    if calculating:
 		    raw_solutions = self._get_centers()
-		    _snapped_lines = []
+		    snapped_lines = []
 
 		    for line in raw_solutions:
-			    _snapped_lines.append(self._find_snapped_line(line))
+			    snapped_lines.append(self._find_snapped_line(line))
 
-		    self._raw_solutions = np.array(raw_solutions)#self._rotate(np.array(raw_solutions))
-		    self._snapped_lines = np.array(_snapped_lines)#self._rotate(np.array(_snapped_lines))
+		    self._raw_solutions = self._adjust_cordinates(np.array(raw_solutions))
+		    self._snapped_lines = self._adjust_cordinates(np.array(snapped_lines))
 
 
 	    lines = None 
@@ -47,9 +47,11 @@ class MetroMap(VisualizationInterface):
 	    data = None
 	    
 	    if len(self._controls.components_int) != 1:
-	    	data = hv.Image(self._main._pipe.data).apply.opts(cmap='Blues', color_levels=self._controls.param.water_level, width=self._main._width, height=self._main._height, xlim=self._main._xlim, ylim=self._main._ylim)
+	    	data = hv.Image(self._main._pipe.data).apply.opts(cmap='Blues', color_levels=self._controls.param.water_level, 
+	    		width=self._main._width, height=self._main._height, xlim=self._main._xlim, ylim=self._main._ylim)
 	    else:
-	    	data = hv.Image(self._digitize(self._controls.components_int[0])).apply.opts(cmap='jet', width=self._main._width, height=self._main._height, xlim=self._main._xlim, ylim=self._main._ylim)
+	    	data = hv.Image(self._digitize(self._controls.components_int[0])).apply.opts(cmap='jet', 
+	    		width=self._main._width, height=self._main._height, xlim=self._main._xlim, ylim=self._main._ylim)
 	    
 	    overlay.append(data)
 	    for i,pts in enumerate(lines):
@@ -60,12 +62,11 @@ class MetroMap(VisualizationInterface):
 	    self._main._pdmap[0] = hv.Overlay(overlay).collate()
 
 
-	def _rotate(self, lines):
+	def _adjust_cordinates(self, lines):
 	    lines[:,:,[0,1]] = lines[:,:,[1,0]]
-	    scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx)) + a
-	    lines[:,:,0] = scale(-0.5, 0.5, lines[:,:,0], -0.5, self._main._n)
-	    lines[:,:,1] = scale(-0.5, 0.5, lines[:,:,1], -0.5, self._main._m)
-	    lines[:,:,[1]]   = -1*lines[:,:,[1]]
+	    for feature in range(lines.shape[0]):
+	    	for point in range(lines.shape[1]):
+	    		lines[feature,point] = self._main._convert_to_xy(point2D=lines[feature,point])
 	    return lines
 
 	def _digitize(self, component):

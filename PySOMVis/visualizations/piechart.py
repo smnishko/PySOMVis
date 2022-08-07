@@ -51,7 +51,7 @@ class PieChart(VisualizationInterface):
         start_angle, end_angle = np.array([]), np.array([])
 
         for p in range(mapped_data.shape[0]):
-            nx, ny = self._main._get_neuron_xy(p)
+            nx, ny = self._main._convert_to_xy(neuron=p)
             a, b, c, d, e, f = self._get_pie_chart(nx, ny, mapped_data[p], max_size)
             print(d)
             pos_x       = np.append(pos_x,  a,axis=0)

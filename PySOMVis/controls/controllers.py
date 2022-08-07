@@ -36,13 +36,13 @@ class MainController(param.Parameterized):
     visualization = param.ObjectSelector(default=0, objects=OBJECTS_ALL, label='')
     colormap = param.ObjectSelector(default='jet', objects=PALETTES, label='')
 
-    rotate_r = param.Action(lambda x: x.param.trigger('rotate_r'), label='↩')
-    rotate_l = param.Action(lambda x: x.param.trigger('rotate_l'), label='↪')
-    #flip_h   = param.Action(lambda x: x.param.trigger('flip_h'),   label='↔')
-    #flip_v   = param.Action(lambda x: x.param.trigger('flip_v'),   label='↕')
+    rotate_r = param.Action(lambda x: x.param.trigger('rotate_r'), label='↶')
+    rotate_l = param.Action(lambda x: x.param.trigger('rotate_l'), label='↷')
+    flip_h   = param.Action(lambda x: x.param.trigger('flip_h'),   label='↔')
+    flip_v   = param.Action(lambda x: x.param.trigger('flip_v'),   label='↕')
     interpolation   = param.Boolean(False, label='interpolation')
 
-    def __init__(self, interpolation, rotate, visualizations, vis_classes,  **params):
+    def __init__(self, interpolation, rotate, flip, visualizations, vis_classes,  **params):
         super(MainController, self).__init__(**params)
         self._visualizations = visualizations
         self._vis_classes = vis_classes
@@ -50,6 +50,7 @@ class MainController(param.Parameterized):
         self._orientation = 0
         self._interpolation = interpolation
         self._rotate = rotate
+        self._flip = flip
     
     @param.depends("interpolation", watch=True)
     def _interpolation(self):
@@ -65,13 +66,13 @@ class MainController(param.Parameterized):
         self._orientation -= 1
         self._rotate(-1)
 
-    #@param.depends("flip_h", watch=True)
-    #def _flip_h(self):
-    #    self._pipe.send(np.fliplr(self._pipe.data)) 
+    @param.depends("flip_h", watch=True)
+    def _flip_h(self):
+        self._flip(True) #self._pipe.send(np.fliplr(self._pipe.data)) 
         
-    #@param.depends("flip_v", watch=True)
-    #def _flip_v(self):
-    #    self._pipe.send(np.flipud(self._pipe.data))
+    @param.depends("flip_v", watch=True)
+    def _flip_v(self):
+        self._flip(False)#self._pipe.send(np.flipud(self._pipe.data))
         
     @param.depends("visualization", watch=True)
     def _change_app(self,):

@@ -154,12 +154,11 @@ class Chessboard(VisualizationInterface):
 		if self._controls.voronoi_lines:
 			for v in vdiagram.ridge_vertices:
 				if -1 not in v:
-					path = np.append(vdiagram.vertices[v[0]], vdiagram.vertices[v[1]])
-					path[[1,3]] = np.clip(path[[1,3]],-0.5,self._main._m-0.5)
-					path[[0,2]] = np.clip(path[[0,2]],-0.5,self._main._n-0.5)
-					paths.append(tuple(self._main._get_xy(path[0:2]))+tuple(self._main._get_xy(path[2:4])))
+					p1 = list(self._main._convert_to_xy(point2D=vdiagram.vertices[v[0]]))
+					p2 = list(self._main._convert_to_xy(point2D=vdiagram.vertices[v[1]]))
+					paths.append(tuple(p1)+tuple(p2))
 
-		plot = np.rot90(plot, k=-1, axes=(1,0))
+		plot = np.flipud(np.rot90(plot, k=-1, axes=(1,0)))
 		self._main._display(plot=plot, paths=paths)
 
 	def _dist_point_to_segment(self, pixels, s0, s1=None):

@@ -42,7 +42,7 @@ class NeighbourhoodGraph(VisualizationInterface):
         
         paths = []
         for p in points:
-            paths.append(self._main._get_neuron_xy(p[0])+self._main._get_neuron_xy(p[1]))
+            paths.append(self._main._convert_to_xy(neuron=p[0])+self._main._convert_to_xy(neuron=p[1]))
 
         self._main._display(paths=paths)
 
@@ -81,6 +81,6 @@ class NeighbourhoodGraph(VisualizationInterface):
 
         paths = []
         for p in points:
-            paths.append(self._main._get_neuron_xy(p[0])+self._main._get_neuron_xy(p[1]))
+            paths.append(self._main._convert_to_xy(neuron=p[0])+self._main._convert_to_xy(neuron=p[1]))
 
         self._main._display(paths=paths)

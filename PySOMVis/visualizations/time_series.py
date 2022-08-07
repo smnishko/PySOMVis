@@ -50,8 +50,8 @@ class TimeSeries(VisualizationInterface):
         if self._controls.projection != '-':
             borders = self._controls.Xrange 
             bmu = np.apply_along_axis(lambda x: np.argmin( np.linalg.norm(self._main._weights - x.reshape((1, self._main._dim)), axis=1)), 1, self._main._idata[int(borders[0]):int(borders[1])])
-            trajectory = [self._main._get_neuron_xy(bmu[i-1])+self._main._get_neuron_xy(bmu[i]) for i in range(1, len(bmu))]
-            points = [self._main._get_neuron_xy(b) for b in bmu]
+            trajectory = [self._main._convert_to_xy(neuron=bmu[i-1])+self._main._convert_to_xy(neuron=bmu[i]) for i in range(1, len(bmu))]
+            points = [self._main._convert_to_xy(neuron=b) for b in bmu]
             if self._controls.projection == 'Points':     self._main._display(paths=[], points=points)
             else:                                         self._main._display(paths=trajectory, points=[])
         else:

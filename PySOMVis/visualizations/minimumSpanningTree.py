@@ -13,18 +13,12 @@ class MinimumSpanningTree(VisualizationInterface):
         self._controls = MinimumSpanningTreeController(self._calculate, name='Minimum Spanning Tree')
         self._activated_unites = np.zeros(self._main._m * self._main._n)
         self._old_coolormap = ''
-        for vector in self._main._idata: 
-            idx_best = np.argmin(np.linalg.norm(self._main._weights - vector, axis=1))
-            self._activated_unites[idx_best] = 1
-        #self._activated_unites = np.rot90(self._activated_unites.reshape(self._main._m , self._main._n)).flatten()
-        self._activated_unites = np.argwhere(self._activated_unites>0).flatten()
             
     def _activate_controllers(self, ):
         reference = pn.pane.Str('<ul><li>"Visualising Clusters in Self-Organising Maps with Minimum SpanningTrees." <b>Mayer, Rudolf, and Andreas Rauber.</b> International Conference on Artificial Neural Networks. Springer, Berlin, Heidelberg, 2010.</li></ul>')
         self._old_coolormap = self._main._maincontrol.colormap
         self._main._maincontrol.colormap = 'RdGy'
-        self._main._pipe.data[:,:] = 0
-        self._main._display(plot=self._main._pipe.data)
+        self._main._display(plot=[])
         self._main._controls.append(pn.Column(self._controls, self._main._point_segment_options, reference))
         self._calculate(self._controls.connection_type, self._controls.weighted_lines)
 
@@ -33,7 +27,13 @@ class MinimumSpanningTree(VisualizationInterface):
         self._main._pipe_points.send([]) 
         self._main._maincontrol.colormap = self._old_coolormap 
 
-    def _calculate(self, connection_type, weighted_lines):
+    def _calculate(self, connection_type=0, weighted_lines=False):
+
+        self._activated_unites = np.zeros(self._main._m * self._main._n)
+        for vector in self._main._idata: 
+            idx_best = np.argmin(np.linalg.norm(self._main._weights - vector, axis=1))
+            self._activated_unites[idx_best] = 1
+        self._activated_unites = np.argwhere(self._activated_unites>0).flatten()
         
         G = nx.Graph()
 
@@ -47,9 +47,9 @@ class MinimumSpanningTree(VisualizationInterface):
         paths = []
         points = set()
         for n1, n2, w in MST:
-            paths.append(list(self._main._get_neuron_xy(n1)+self._main._get_neuron_xy(n2))+[w['weight']])
-            points.add(self._main._get_neuron_xy(n1))
-            points.add(self._main._get_neuron_xy(n2))
+            paths.append(list(self._main._convert_to_xy(neuron=n1)+self._main._convert_to_xy(neuron=n2))+[w['weight']])
+            points.add(self._main._convert_to_xy(neuron=n1))
+            points.add(self._main._convert_to_xy(neuron=n2))
 
         if self._controls.weighted_lines:
             paths = self._norm_line_width(paths)

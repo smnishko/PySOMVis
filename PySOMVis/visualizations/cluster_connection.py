@@ -18,13 +18,12 @@ class ClusterConnection(VisualizationInterface):
         self._main._segmentoptions.size = 5
         self._old_coolormap = self._main._maincontrol.colormap
         self._main._maincontrol.colormap = 'RdGy'
-        self._main._pipe.data[:,:] = 0
-        self._main._display(plot=self._main._pipe.data)
+        self._main._display(plot=[])
         self._main._controls.append(pn.Column(self._controls, reference))
         self._get_paths()
 
     def _deactivate_controllers(self,):
-        self._main._pipe_paths.send([]) 
+        self._main._display(paths=[])
         self._main._maincontrol.colormap = self._old_coolormap
         self._main._segmentoptions.color = 'red'
         self._main._segmentoptions.size = 2
@@ -62,10 +61,10 @@ class ClusterConnection(VisualizationInterface):
 
     def _add(self, paths, n1, n2):
         w = np.linalg.norm(self._main._weights[n1] - self._main._weights[n2])
-        xy1 = list(self._main._get_neuron_xy(n1))
-        xy2 = list(self._main._get_neuron_xy(n2))
+        xy1 = list(self._main._convert_to_xy(neuron=n1))
+        xy2 = list(self._main._convert_to_xy(neuron=n2))
 
-        l = 0.02
+        l = 0.01
         if (xy1[0] == xy2[0]):
             xy1[1] -=  l
             xy2[1] +=  l
