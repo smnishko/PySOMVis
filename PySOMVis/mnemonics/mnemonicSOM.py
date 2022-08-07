@@ -3,6 +3,7 @@ import numpy as np
 import panel as pn
 import random as rd
 import math
+from visualizations.umatrix import UMatrix
 from controls.controllers import MnemonicSOMController
 import mnemonics.input_utils as input_utils
 from visualizations.iVisualization import VisualizationInterface
@@ -49,6 +50,8 @@ class MnemonicSOM(VisualizationInterface):
                 else:                ret.append(np.full(self._main._dim, 0))
         
         self._weights = np.array(ret)
+        
+        self._main._display(UMatrix.calculate_UMatrix(self._weights, self._controls.M, self._controls.N, self._main._dim))
 
 
     def _train(self, verbose=False):

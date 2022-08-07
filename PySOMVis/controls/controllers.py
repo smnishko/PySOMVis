@@ -389,7 +389,9 @@ class ClusterConnectionController(param.Parameterized):
 SILUETTES = {'Stick figure': 'mnemonics/siluettes/stick_figure.png',
              'Rectangle'   : 'mnemonics/siluettes/rectangle.png',
              'Round'       : 'mnemonics/siluettes/round.png',
-             'Walking icon': 'mnemonics/siluettes/walking_icon.png'} 
+             'Walking man' : 'mnemonics/siluettes/walking_icon.png'} 
+
+
 class MnemonicSOMController(param.Parameterized):
     M = param.Integer(10)
     N = param.Integer(10)

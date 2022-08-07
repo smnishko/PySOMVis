@@ -160,9 +160,7 @@ class PySOMVis():
 
     def _interpolation(self, ):
         if self._maincontrol.interpolation:
-            self._pipe.send(resize(self._plot, (1000, 1000)))
-        else:
-            self._pipe.send(self._plot)
+            self._pipe.send(resize(self._pipe.data, (1000, 1000)))
 
     def _convert_to_xy(self, neuron=None, point2D=None):
         scale = lambda a,b,x,minx,maxx: (b-a)*((x-minx)/(maxx-minx))+a  # adjust to -0.5 to 0.5 because of holoviews Image
@@ -175,13 +173,10 @@ class PySOMVis():
 
     def _display(self, plot=None, paths=None, points=None):
         if plot is not None: 
-            #figure = np.rot90(plot, k=self._maincontrol._orientation, axes=(1,0))
             if self._m==1:  plot = np.vstack([plot, plot])  # hv.Image doesn't work with one line input
             if self._n==1:  plot = np.c_[plot, plot]        # hv.Image doesn't work with one line input
-            if self._maincontrol.interpolation: 
-                self._pipe.send(resize(plot, (1000, 1000)))
-            else:
-                self._pipe.send(plot)
+            if self._maincontrol.interpolation: plot = resize(plot, (1000, 1000))
+            self._pipe.send(plot)
         if paths is not None:
             self._pipe_paths.send(paths)
         if points is not None:

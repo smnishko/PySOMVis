@@ -53,7 +53,6 @@ class PieChart(VisualizationInterface):
         for p in range(mapped_data.shape[0]):
             nx, ny = self._main._convert_to_xy(neuron=p)
             a, b, c, d, e, f = self._get_pie_chart(nx, ny, mapped_data[p], max_size)
-            print(d)
             pos_x       = np.append(pos_x,  a,axis=0)
             pos_y       = np.append(pos_y,  b,axis=0)
             color       = np.append(color,  c,axis=0)
@@ -73,6 +72,9 @@ class PieChart(VisualizationInterface):
             angle       = piechart[wedge]/total * 2 * np.pi
             angle_start = np.insert(angle[:-1], 0, 0, axis=0)
             angle_end   = np.cumsum(angle)
-            color       = np.array(Category20[len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)]
+            if len(wedge) >= 3:
+                color   = np.array(Category20[len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)]
+            else:
+                color   = np.array(Category20[3][:len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)] 
             return np.array([x]*wedge_n), np.array([y]*wedge_n), color, np.array([total/max_size*PIE_CHART]*wedge_n), angle_start, angle_end, 
         return np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])

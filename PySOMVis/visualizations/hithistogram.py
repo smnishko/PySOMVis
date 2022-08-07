@@ -22,4 +22,4 @@ class HitHist(VisualizationInterface):
             position =np.argmin(np.sqrt(np.sum(np.power(self._main._weights - vector, 2), axis=1)))
             hist[position] += 1
 
-        self._main._display(plot=hist.reshape(self._main._m,self._main._n))
+        self._main._display(plot=hist.reshape(self._main._m, self._main._n))
