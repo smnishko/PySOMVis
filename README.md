@@ -14,4 +14,5 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
 </br>The following plot represents projection over all dataset.</br>
 <img src="PySOMVis/pics/35years_Taxis.png" width=550/></p>
  
- 
+ # Citation
+1. Sergei Mnishko and Andreas Rauber. Som visualization framework in python, including somstreamvis, a time series visualization. In Jan Faigl, Madalina Olteanu, and Jan Drchal, editors, Advances in Self-Organizing Maps, Learning Vector Quantization, Clustering and Data Visualization, pages 98–107, Cham, 2022. Springer International Publishing. DOI: https://doi.org/10.1007/978-3-031-15444-7_10
