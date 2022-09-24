@@ -29,7 +29,7 @@ class SOMToolBox_Parse:
             if line.startswith('$'):
                 df = self._parse_vector_file_metadata(line, df)
             else:
-                c = df['vec_dim'] if 'vec_dim' in df else 1 
+                c = df['vec_dim'] if 'vec_dim' in df else 2 
                 if 'arr' not in df: df['arr'] = np.empty((0,c), dtype=float)
                 df = self._parse_weight_file_data(line, df)
         return df
@@ -38,7 +38,7 @@ class SOMToolBox_Parse:
     def _parse_weight_file_data(self, line, df):
         splitted=line.split(' ')
         try:
-            c = df['vec_dim'] if 'vec_dim' in df else 1
+            c = df['vec_dim'] if 'vec_dim' in df else 2
             df['arr'] = np.append(df['arr'], [np.array(splitted[0:c]).astype(float)], axis=0)
         except: raise ValueError('The input-vector file does not match its unit-dimension.') 
         return  df

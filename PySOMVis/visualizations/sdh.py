@@ -41,7 +41,7 @@ class SDH(VisualizationInterface):
             if (sdh_type == 2):
                 dmin = min(dist[c])
                 dmax = max(dist[c])
-                for j in range(smooth_factor): sdh_m[c[j]] += 1.0 - (dist[c[j]] - dmin) / (dmax - dmin)
+                for j in range(smooth_factor): sdh_m[c[j]] += 1.0 - (dist[c[j]] - dmin) / (dmax - dmin) #min-max normalized distance)
 
         plot = sdh_m.reshape(m, n)
         return plot
