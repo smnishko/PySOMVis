@@ -5,7 +5,7 @@ from bokeh.palettes import Greys256
 OBJECTS_ALL = {'Component Planes': 0, 'Hit Histogram': 1, 'U-matrix': 2, 'D-Matrix': 3,  
                'P-matrix & U*-matrix': 4, 'Smoothed Data Histograms': 5, 'Pie Chart': 6, 
                'Neighbourhood Graph': 7, 'Chessboard': 8, 'Clustering': 9, 'Metro Map': 10, 
-               'Quantization Error': 11,  'Time Series': 12,  'Sky Metaphor': 13, 'Topographic error': 14, 'Intrinsic distance':15,
+               'Quantization Error': 11,  'SOMStreamVis': 12,  'Sky Metaphor': 13, 'Topographic error': 14, 'Intrinsic distance':15,
                'Activity Histogram':16, 'Minimum Spanning Tree':17, 'Cluster Connection': 18, 'Mnemonic SOM': 19} 
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
@@ -207,7 +207,7 @@ class MetroMapController(param.Parameterized):
 
     stops            = param.Integer(3, bounds=(3, None), label='Number of bins')
     components_int   = param.ListSelector(default=[], objects=[], precedence=-1)
-    components       = param.ListSelector(default=[], objects=[])
+    components       = param.ListSelector(default=[], objects=[], label='Class labels')
     snapping         = param.Boolean(False, label='Snap lines')
     level            = param.Number(0.3, bounds=(0.0, 1))
     water_level      = param.List(precedence=-1)
@@ -264,17 +264,19 @@ class SegmentOptions(param.Parameterized):
     size   = param.Integer(2, bounds=(0, None), label='Size')
 
 
-class TimeSeriesController(param.Parameterized):
+class SOMStreamVisController(param.Parameterized):
     
     Xrange          = param.Range(default=(0,10), bounds=(0,None), softbounds=(None,100), label='X-range')
-    alpha           = param.Boolean(False, label='Avarage curve')#, precedence=-1)
+    betta           = param.Boolean(False, label='Avarage curve')#, precedence=-1)
+    betta_r         = param.Number(0.10, bounds=(0, 1.00), step= 0.01, label='Betta')
     projection      = param.ObjectSelector(default='-', objects=['-', 'Points', 'Trajectory'], label='Projection type')
 
-    def __init__(self, calculate, uborder, **params):
-        super(TimeSeriesController, self).__init__(**params)
+    def __init__(self, calculate, get_projection, uborder, **params):
+        super(SOMStreamVisController, self).__init__(**params)
         self.param.Xrange.softbounds = (None, uborder)
         self._calculate = calculate
-
+        self._get_projection = get_projection
+        
     @param.depends("Xrange", watch=True)
     def change_range(self,):
         self._calculate()
@@ -282,6 +284,10 @@ class TimeSeriesController(param.Parameterized):
     @param.depends("projection", watch=True)
     def change_trajectory(self,):
         self._calculate()
+
+    @param.depends("betta_r", watch=True)
+    def change_trajectory(self,):
+        self._get_projection()
 
 class SkyMetaphorController(param.Parameterized):
     smooth_factor = param.Integer(3, bounds=(0, 20), label='Smoothing factor')

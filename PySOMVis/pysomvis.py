@@ -34,7 +34,7 @@ from visualizations.clustering import Clustering
 from visualizations.metromap import MetroMap
 from visualizations.piechart import PieChart
 from visualizations.chessboard import Chessboard
-from visualizations.time_series import TimeSeries
+from visualizations.somstreamvis import SOMStreamVis
 from visualizations.sky_metaphor import SkyMetaphor
 from visualizations.topographic_error import TopographicError
 from visualizations.intrinsic_distance import IntrinsicDistance
@@ -46,7 +46,7 @@ from skimage.transform import resize
 
 OBJECTS_CLASSES = [ComponentPlane, HitHist, UMatrix, DMatrix, UStar_PMatrix, 
                    SDH, PieChart, NeighbourhoodGraph, Chessboard, Clustering, 
-                   MetroMap, QError, TimeSeries, SkyMetaphor, TopographicError,
+                   MetroMap, QError, SOMStreamVis, SkyMetaphor, TopographicError,
                    IntrinsicDistance, ActivityHist, MinimumSpanningTree, ClusterConnection, MnemonicSOM]
 
 _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
@@ -115,8 +115,8 @@ class PySOMVis():
         self._pdmap = pn.Column(self._Image * self._Paths * self._Points)
 
         self._controls = pn.Row()
-        self._timeseries = pn.Row()
-        self._mainview = pn.Column(pn.Column(self._mainp, pn.Row(self._pdmap, self._controls)), pn.Column(self._timeseries))
+        self._somstreamvis = pn.Row()
+        self._mainview = pn.Column(pn.Column(self._mainp, pn.Row(self._pdmap, self._controls)), pn.Column(self._somstreamvis))
        
         self._visualizations.append(ComponentPlane(self))
         if input_data is not None: self._visualizations.append(HitHist(self))
@@ -131,7 +131,7 @@ class PySOMVis():
             self._visualizations.append(Clustering(self))
             self._visualizations.append(MetroMap(self))
             self._visualizations.append(QError(self))
-            self._visualizations.append(TimeSeries(self))     
+            self._visualizations.append(SOMStreamVis(self))     
             self._visualizations.append(SkyMetaphor(self)) 
             self._visualizations.append(TopographicError(self)) 
             self._visualizations.append(IntrinsicDistance(self)) 
