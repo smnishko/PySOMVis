@@ -18,7 +18,7 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
 Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
 <p align="center"></p>
 <table>
-<tbody>
+<tbody align="center">
   <tr>
     <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=150/></br><sup>Activity Histogram</sup></td>
     <td align="center"><img src="PySOMVis/pics/git/clustercon.png" width=150/></br><sup>Cluster Connection</sup></td>
