@@ -14,5 +14,38 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
 </br>The following plot represents projection over all dataset.</br>
 <img src="PySOMVis/pics/35years_Taxis.png" width=550/></p>
  
+ # Current visualizations of PySOMVis
+Visualizations are based on the Chain Link Data set (). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
+<table>
+<thead>
+  <tr>
+    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
+    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
+    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
+    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+  </tr>
+  <tr>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+  </tr>
+  <tr>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+  </tr>
+</tbody>
+</table>
+
  # Citation
 1. Sergei Mnishko and Andreas Rauber. Som visualization framework in python, including somstreamvis, a time series visualization. In Jan Faigl, Madalina Olteanu, and Jan Drchal, editors, Advances in Self-Organizing Maps, Learning Vector Quantization, Clustering and Data Visualization, pages 98–107, Cham, 2022. Springer International Publishing. DOI: https://doi.org/10.1007/978-3-031-15444-7_10
