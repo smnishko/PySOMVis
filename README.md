@@ -1,7 +1,7 @@
-# PySOMVis
+# PySOMVis framework
 
 **PySOMVis framework** envolvs popular Self-Organizing Maps visualization techniques, which is inspired by Java based **SOMToolbox** (http://www.ifs.tuwien.ac.at/dm/somtoolbox/index.html)
-# Current PySOMVis visualizations 
+# Current visualizations 
 Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection.
 </br> The SOM map represents **18x12 neurons map** trained **10000 times** with learninng rate **0.7** and sigma **7**.
 <p align="center"></p>
@@ -35,7 +35,7 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
 
 
 # SOMStreamVis approach
-SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast data, it includes **5 fetures** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/).</br>
+SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast, it includes **5 fetures** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/).</br>
 The features are following:
 <ul>
   <li>RH2M - Relative Humidity at 2 Meters (%)</li>
@@ -44,7 +44,7 @@ The features are following:
   <li>WS50M - Wind Speed at 50 Meters (m/s)</li>
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
-SOMStreamVis dynamic exploration example:
+Dynamic exploration with SOMStreamVis:
 
 <p align="center"></p>
 <table align="center">
