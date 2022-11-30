@@ -31,6 +31,7 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
   </tr>
 </tbody>
 </table>
+</br>
 # SOMStreamVis approach 
 SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast data. The data set includes **5 fetures** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/). The features are following:
 <ul>
