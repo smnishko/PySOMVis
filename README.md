@@ -19,30 +19,30 @@ Visualizations are based on the Chain Link Data set (). It is synthetic data rep
 <table>
 <thead>
   <tr>
-    <th><img src="PySOMVis/pics/git/Umatrix.png" /></th>
-    <th><img src="PySOMVis/git/activhist.png" /></th>
-    <th><img src="PySOMVis/git/activhist.png" /></th>
-    <th><img src="PySOMVis/git/activhist.png" /></th>
+    <th><img src="PySOMVis/pics/git/activhist.png" width=30/></th>
+    <th><img src="PySOMVis/pics/git/clustercon.png" width=30/></th>
+    <th><img src="PySOMVis/pics/git/compplane.png" width=30/></th>
+    <th><img src="PySOMVis/pics/git/dmatrix.png" width=30/></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/pics/git/graphbased.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/hithist.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/metromap.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/minimspantree.png" width=30/></td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/pics/git/piechart.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/qerror.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/sdh.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/skymeth.png" width=30/></td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
-    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/pics/git/toperror.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/Umatrix.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/Ustarmatrix.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/activhist.png" width=30/></td>
   </tr>
 </tbody>
 </table>
