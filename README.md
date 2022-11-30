@@ -49,7 +49,7 @@ Dynamic exploration with SOMStreamVis:
 <table align="center">
 <tbody align="center">
   <tr align="center">
-    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_i.png" width=450/></br><sup>SOMStreamVis interface with trajectory-based approach</sup></td>
+    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_i.png" width=550/></br><sup>SOMStreamVis interface with trajectory-based approach</sup></td>
     <td align="center"><img src="PySOMVis/pics/SOMStreamVis_3years.png" width=450/></br><sup>Projection of 3 years (coloring is based on WARD clusterisation)</sup></br><img src="PySOMVis/pics/35years_Taxis.png" width=450/></br><sup>Projection of 35 years (coloring is based on WARD clusterisation)</sup></td>
   </tr>
 </tbody>
