@@ -33,7 +33,6 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
 </table>
 </br>
 
-
 # SOMStreamVis approach
 SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast, it includes **5 features** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/).</br>
 The features are following:
@@ -55,7 +54,6 @@ Dynamic exploration with SOMStreamVis:
   </tr>
 </tbody>
 </table>
-
 
 # Citation
 1. Sergei Mnishko and Andreas Rauber. Som visualization framework in python, including somstreamvis, a time series visualization. In Jan Faigl, Madalina Olteanu, and Jan Drchal, editors, Advances in Self-Organizing Maps, Learning Vector Quantization, Clustering and Data Visualization, pages 98–107, Cham, 2022. Springer International Publishing. DOI: https://doi.org/10.1007/978-3-031-15444-7_10
