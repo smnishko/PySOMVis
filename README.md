@@ -10,9 +10,9 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
  Here we can observ the 3 years forecast projection
-<p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.PNG" width=550/>
+<p align="center"><img src="PySOMVis/pics/SOM_TimeSerries.PNG" width=350/>
 </br>The following plot represents projection over all dataset.</br>
-<img src="PySOMVis/pics/35years_Taxis.png" width=550/></p>
+<img src="PySOMVis/pics/35years_Taxis.png" width=350/></p>
  
  # Current PySOMVis visualizations 
 Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
