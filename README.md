@@ -22,8 +22,8 @@ Visualizations are based on the Chain Link Data set (). It is synthetic data rep
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-pjk6{border-color:#000000;color:#000000;text-align:left;vertical-align:top}
-.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-pjk6{border-color:#000000;color:#000000;text-align:center;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:center;vertical-align:top}
 </style>
 <table  class="tg">
 <thead>
