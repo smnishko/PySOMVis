@@ -3,7 +3,7 @@
 **PySOMVis framework** involves popular Self-Organizing Maps visualization techniques, which is inspired by Java based **SOMToolbox** (http://www.ifs.tuwien.ac.at/dm/somtoolbox/index.html)
 # Current visualizations 
 Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection.
-</br> The SOM map represents **18x12 neurons map** trained **10000 times** with learning rate **0.7** and sigma **7**.
+</br> The SOM map represents **18x12 neurons** trained **10000 times** with learning rate **0.7** and sigma **7** in **SOMToolbox**.
 <p align="center"></p>
 <table align="center">
 <tbody align="center">
