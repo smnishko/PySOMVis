@@ -1,8 +1,9 @@
 # PySOMVis
 
-PySOMVis envolvs popular Self-Organizing Maps visualization techniques, which were taken from Java based SOMToolbox (http://www.ifs.tuwien.ac.at/dm/somtoolbox/index.html)
+PySOMVis envolvs popular Self-Organizing Maps visualization techniques, which is inspired by Java based SOMToolbox (http://www.ifs.tuwien.ac.at/dm/somtoolbox/index.html)
  # Current PySOMVis visualizations 
-Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
+Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection.
+</br> The SOM map represents **18x12** neurons map trained **10000 times** with learninng rate **0.7** and sigma **7**.
 <p align="center"></p>
 <table align="center">
 <tbody align="center">
@@ -31,7 +32,7 @@ Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/
 </tbody>
 </table>
  # SOMStreamVis visualization 
-SOMStreamVis approach helps to explore dynamics in data streams. The example represents weather forecast data. The data set includes 5 fetures of different temperature, pressure and wind speed values over 35 years (taken from the https://power.larc.nasa.gov/data-access-viewer/). The features are following:
+SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast data. The data set includes **5 fetures** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/). The features are following:
 <ul>
   <li>RH2M - Relative Humidity at 2 Meters (%)</li>
   <li>PS - Surface Pressure (kPa)</li>
@@ -39,14 +40,14 @@ SOMStreamVis approach helps to explore dynamics in data streams. The example rep
   <li>WS50M - Wind Speed at 50 Meters (m/s)</li>
   <li>ALLSKY_SFC8_LW_DWN - Downward Thermal Infrared (Longwave) Radiative Flux (kW-hr/m^2/day)</li>
   </ul>
- Here we can observ the 3 years forecast projection
+SOMStreamVis data exploration example:
 
 <p align="center"></p>
 <table align="center">
 <tbody align="center">
   <tr align="center">
     <td align="center"><img src="PySOMVis/pics/SOMStreamVis_i.png" width=450/></br><sup>SOMStreamVis interface with trajectory-based approach</sup></td>
-    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_3years.png" width=450/></br><sup>Projection of 3 years</sup></br><img src="PySOMVis/pics/35years_Taxis.png" width=450/></br><sup>Projection of 35 years</sup></td>
+    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_3years.png" width=450/></br><sup>Projection of 3 years (coloring is based on WARD clusterisation)</sup></br><img src="PySOMVis/pics/35years_Taxis.png" width=450/></br><sup>Projection of 35 years (coloring is based on WARD clusterisation)</sup></td>
   </tr>
 </tbody>
 </table>
