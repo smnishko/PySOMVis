@@ -16,33 +16,32 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
  
  # Current PySOMVis visualizations 
 Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/somtoolbox/datasets.html). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
+<p align="center"></p>
 <table>
-<thead>
-  <tr>
-    <td><img src="PySOMVis/pics/git/activhist.png" width=150/></br><center><sup>Activity Histogram</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/clustercon.png" width=150/></br><center><sup>Cluster Connection</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/compplane.png" width=150/></br><center><sup>Component Plane</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/dmatrix.png" width=150/></br><center><sup>D-Matrix</sup></center></td>
-  </tr>
-</thead>
 <tbody>
   <tr>
-    <td ><img src="PySOMVis/pics/git/graphbased.png" width=150/></br><center><sup>Graph based</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/hithist.png" width=150/></br><center><sup>Hit Histogram</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/metromap.png" width=150/></br><center><sup>Metro Map</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/minimspantree.png" width=150/></br><center><sup>Minimum Spanning Tree</sup></center></td>
+    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=150/></br><sup>Activity Histogram</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/clustercon.png" width=150/></br><sup>Cluster Connection</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/compplane.png" width=150/></br><sup>Component Plane</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/dmatrix.png" width=150/></br><sup>D-Matrix</sup></td>
   </tr>
   <tr>
-    <td ><img src="PySOMVis/pics/git/piechart.png" width=150/></br><center><sup>Pie Chart</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/qerror.png" width=150/></br><center><sup>Quantization Error</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/sdh.png" width=150/></br><center><sup>Smoothed Data Histogram</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/skymeth.png" width=150/></br><center><sup>Sky Metaphor</sup></center></td>
+    <td align="center"><img src="PySOMVis/pics/git/graphbased.png" width=150/></br><sup>Graph based</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/hithist.png" width=150/></br><sup>Hit Histogram</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/metromap.png" width=150/></br><sup>Metro Map</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/minimspantree.png" width=150/></br><sup>Minimum Spanning Tree</sup></td>
   </tr>
   <tr>
-    <td ><img src="PySOMVis/pics/git/toperror.png" width=150/></br><center><sup>Topology Error</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/Umatrix.png" width=150/></br><center><sup>U-Matrix</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/Ustarmatrix.png" width=150/></br><center><sup>U*-Matrix</sup></center></td>
-    <td ><img src="PySOMVis/pics/git/activhist.png" width=150/></br><center><sup>Activity Histogram</sup></center></td>
+    <td align="center"><img src="PySOMVis/pics/git/piechart.png" width=150/></br><sup>Pie Chart</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/qerror.png" width=150/></br><sup>Quantization Error</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/sdh.png" width=150/></br><sup>Smoothed Data Histogram</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/skymeth.png" width=150/></br><sup>Sky Metaphor</sup></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="PySOMVis/pics/git/toperror.png" width=150/></br><sup>Topology Error</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/Umatrix.png" width=150/></br><sup>U-Matrix</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=150/></br><sup>U*-Matrix</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=150/></br><sup>Activity Histogram</sup></td>
   </tr>
 </tbody>
 </table>
