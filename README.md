@@ -16,33 +16,42 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
  
  # Current visualizations of PySOMVis
 Visualizations are based on the Chain Link Data set (). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
-<table>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-pjk6{border-color:#000000;color:#000000;text-align:left;vertical-align:top}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+</style>
+<table  class="tg">
 <thead>
   <tr>
-    <th><img src="PySOMVis/pics/git/activhist.png" width=350/>/br Activity Histogram</th>
-    <th><img src="PySOMVis/pics/git/clustercon.png" width=350/>/br Cluster Connection</th>
-    <th><img src="PySOMVis/pics/git/compplane.png" width=350/>/br Component Plane</th>
-    <th><img src="PySOMVis/pics/git/dmatrix.png" width=350/>/br D-Matrix</th>
+    <th class="tg-pjk6"><img src="PySOMVis/pics/git/activhist.png" width=250/> Activity Histogram</th>
+    <th class="tg-0pky"><img src="PySOMVis/pics/git/clustercon.png" width=250/> Cluster Connection</th>
+    <th class="tg-0pky"><img src="PySOMVis/pics/git/compplane.png" width=250/> Component Plane</th>
+    <th class="tg-0pky"><img src="PySOMVis/pics/git/dmatrix.png" width=250/> D-Matrix</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td><img src="PySOMVis/pics/git/graphbased.png" width=350/>/br Graph based</td>
-    <td><img src="PySOMVis/pics/git/hithist.png" width=350/>/br Hit Histogram</td>
-    <td><img src="PySOMVis/pics/git/metromap.png" width=350/>/br Metro Map</td>
-    <td><img src="PySOMVis/pics/git/minimspantree.png" width=350/>/br Minimum Spanning Tree</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/graphbased.png" width=250/> Graph based</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/hithist.png" width=250/> Hit Histogram</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/metromap.png" width=250/> Metro Map</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/minimspantree.png" width=250/> Minimum Spanning Tree</td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/pics/git/piechart.png" width=350/>/br Pie Chart</td>
-    <td><img src="PySOMVis/pics/git/qerror.png" width=350/>/br Quantization Error</td>
-    <td><img src="PySOMVis/pics/git/sdh.png" width=350/>/br Smoothed Data Histogram</td>
-    <td><img src="PySOMVis/pics/git/skymeth.png" width=350/>/br Sky Metaphor</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/piechart.png" width=250/> Pie Chart</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/qerror.png" width=250/> Quantization Error</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/sdh.png" width=250/> Smoothed Data Histogram</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/skymeth.png" width=250/> Sky Metaphor</td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/pics/git/toperror.png" width=350/>/br Topology Error</td>
-    <td><img src="PySOMVis/pics/git/Umatrix.png" width=350/>/br U-Matrix</td>
-    <td><img src="PySOMVis/pics/git/Ustarmatrix.png" width=350/>/br U*-Matrix</td>
-    <td><img src="PySOMVis/pics/git/activhist.png" width=350/>/br Activity Histogram</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/toperror.png" width=250/> Topology Error</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/Umatrix.png" width=250/> U-Matrix</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=250/> U*-Matrix</td>
+    <td class="tg-0pky"><img src="PySOMVis/pics/git/activhist.png" width=250/> Activity Histogram</td>
   </tr>
 </tbody>
 </table>
