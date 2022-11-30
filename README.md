@@ -20,28 +20,28 @@ Visualizations are based on the Chain Link Data set (http://ifs.tuwien.ac.at/dm/
 <table>
 <tbody align="center">
   <tr>
-    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=150/></br><sup>Activity Histogram</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/clustercon.png" width=150/></br><sup>Cluster Connection</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/compplane.png" width=150/></br><sup>Component Plane</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/dmatrix.png" width=150/></br><sup>D-Matrix</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=100/></br><sup><sup>Activity Histogram</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/clustercon.png" width=100/></br><sup><sup>Cluster Connection</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/compplane.png" width=100/></br><sup><sup>Component Plane</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/dmatrix.png" width=100/></br><sup><sup>D-Matrix</sup></sup></td>
   </tr>
   <tr>
-    <td align="center"><img src="PySOMVis/pics/git/graphbased.png" width=150/></br><sup>Graph based</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/hithist.png" width=150/></br><sup>Hit Histogram</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/metromap.png" width=150/></br><sup>Metro Map</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/minimspantree.png" width=150/></br><sup>Minimum Spanning Tree</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/graphbased.png" width=100/></br><sup><sup>Graph based</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/hithist.png" width=100/></br><sup><sup>Hit Histogram</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/metromap.png" width=100/></br><sup><sup>Metro Map</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/minimspantree.png" width=100/></br><sup><sup>Minimum Spanning Tree</sup></sup></td>
   </tr>
   <tr>
-    <td align="center"><img src="PySOMVis/pics/git/piechart.png" width=150/></br><sup>Pie Chart</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/qerror.png" width=150/></br><sup>Quantization Error</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/sdh.png" width=150/></br><sup>Smoothed Data Histogram</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/skymeth.png" width=150/></br><sup>Sky Metaphor</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/piechart.png" width=100/></br><sup><sup>Pie Chart</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/qerror.png" width=100/></br><sup><sup>Quantization Error</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/sdh.png" width=100/></br><sup><sup>Smoothed Data Histogram</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/skymeth.png" width=100/></br><sup><sup>Sky Metaphor</sup></sup></td>
   </tr>
   <tr>
-    <td align="center"><img src="PySOMVis/pics/git/toperror.png" width=150/></br><sup>Topology Error</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/Umatrix.png" width=150/></br><sup>U-Matrix</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=150/></br><sup>U*-Matrix</sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=150/></br><sup>Activity Histogram</sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/toperror.png" width=100/></br><sup><sup>Topology Error</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/Umatrix.png" width=100/></br><sup><sup>U-Matrix</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=100/></br><sup><sup>U*-Matrix</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=100/></br><sup><sup>Activity Histogram</sup></sup></td>
   </tr>
 </tbody>
 </table>
