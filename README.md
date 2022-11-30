@@ -16,33 +16,33 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
  
  # Current PySOMVis visualizations 
 Visualizations are based on the Chain Link Data set (). It is synthetic data representing two intertwined rings, which presents the topology violations after projection. The SOM map represents 18x12 neurons trained 10000 times, learnRate=0.7, sigma=7.
-<table  class="tg">
+<table>
 <thead>
   <tr>
-    <th class="tg-pjk6"><img src="PySOMVis/pics/git/activhist.png" width=150/> Activity Histogram</th>
-    <th class="tg-0pky"><img src="PySOMVis/pics/git/clustercon.png" width=150/> Cluster Connection</th>
-    <th class="tg-0pky"><img src="PySOMVis/pics/git/compplane.png" width=150/> Component Plane</th>
-    <th class="tg-0pky"><img src="PySOMVis/pics/git/dmatrix.png" width=150/> D-Matrix</th>
+    <th><img src="PySOMVis/pics/git/activhist.png" width=150/></br> Activity Histogram</th>
+    <th ><img src="PySOMVis/pics/git/clustercon.png" width=150/></br> Cluster Connection</th>
+    <th ><img src="PySOMVis/pics/git/compplane.png" width=150/></br> Component Plane</th>
+    <th ><img src="PySOMVis/pics/git/dmatrix.png" width=150/></br> D-Matrix</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/graphbased.png" width=150/> Graph based</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/hithist.png" width=150/> Hit Histogram</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/metromap.png" width=150/> Metro Map</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/minimspantree.png" width=150/> Minimum Spanning Tree</td>
+    <td ><img src="PySOMVis/pics/git/graphbased.png" width=150/></br> Graph based</td>
+    <td ><img src="PySOMVis/pics/git/hithist.png" width=150/></br> Hit Histogram</td>
+    <td ><img src="PySOMVis/pics/git/metromap.png" width=150/></br> Metro Map</td>
+    <td ><img src="PySOMVis/pics/git/minimspantree.png" width=150/></br> Minimum Spanning Tree</td>
   </tr>
   <tr>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/piechart.png" width=150/> Pie Chart</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/qerror.png" width=150/> Quantization Error</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/sdh.png" width=150/> Smoothed Data Histogram</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/skymeth.png" width=150/> Sky Metaphor</td>
+    <td ><img src="PySOMVis/pics/git/piechart.png" width=150/></br>Pie Chart</td>
+    <td ><img src="PySOMVis/pics/git/qerror.png" width=150/></br> Quantization Error</td>
+    <td ><img src="PySOMVis/pics/git/sdh.png" width=150/></br> Smoothed Data Histogram</td>
+    <td ><img src="PySOMVis/pics/git/skymeth.png" width=150/></br> Sky Metaphor</td>
   </tr>
   <tr>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/toperror.png" width=150/> Topology Error</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/Umatrix.png" width=150/> U-Matrix</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=150/> U*-Matrix</td>
-    <td class="tg-0pky"><img src="PySOMVis/pics/git/activhist.png" width=150/> Activity Histogram</td>
+    <td ><img src="PySOMVis/pics/git/toperror.png" width=150/></br> Topology Error</td>
+    <td ><img src="PySOMVis/pics/git/Umatrix.png" width=150/></br> U-Matrix</td>
+    <td ><img src="PySOMVis/pics/git/Ustarmatrix.png" width=150/></br> U*-Matrix</td>
+    <td ><img src="PySOMVis/pics/git/activhist.png" width=150/></br> Activity Histogram</td>
   </tr>
 </tbody>
 </table>
