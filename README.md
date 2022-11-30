@@ -19,30 +19,30 @@ Visualizations are based on the Chain Link Data set (). It is synthetic data rep
 <table>
 <thead>
   <tr>
-    <th><img src="PySOMVis/pics/git/activhist.png" width=30/></th>
-    <th><img src="PySOMVis/pics/git/clustercon.png" width=30/></th>
-    <th><img src="PySOMVis/pics/git/compplane.png" width=30/></th>
-    <th><img src="PySOMVis/pics/git/dmatrix.png" width=30/></th>
+    <th><img src="PySOMVis/pics/git/activhist.png" width=350/>/br Activity Histogram</th>
+    <th><img src="PySOMVis/pics/git/clustercon.png" width=350/>/br Cluster Connection</th>
+    <th><img src="PySOMVis/pics/git/compplane.png" width=350/>/br Component Plane</th>
+    <th><img src="PySOMVis/pics/git/dmatrix.png" width=350/>/br D-Matrix</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td><img src="PySOMVis/pics/git/graphbased.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/hithist.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/metromap.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/minimspantree.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/graphbased.png" width=350/>/br Graph based</td>
+    <td><img src="PySOMVis/pics/git/hithist.png" width=350/>/br Hit Histogram</td>
+    <td><img src="PySOMVis/pics/git/metromap.png" width=350/>/br Metro Map</td>
+    <td><img src="PySOMVis/pics/git/minimspantree.png" width=350/>/br Minimum Spanning Tree</td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/pics/git/piechart.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/qerror.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/sdh.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/skymeth.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/piechart.png" width=350/>/br Pie Chart</td>
+    <td><img src="PySOMVis/pics/git/qerror.png" width=350/>/br Quantization Error</td>
+    <td><img src="PySOMVis/pics/git/sdh.png" width=350/>/br Smoothed Data Histogram</td>
+    <td><img src="PySOMVis/pics/git/skymeth.png" width=350/>/br Sky Metaphor</td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/pics/git/toperror.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/Umatrix.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/Ustarmatrix.png" width=30/></td>
-    <td><img src="PySOMVis/pics/git/activhist.png" width=30/></td>
+    <td><img src="PySOMVis/pics/git/toperror.png" width=350/>/br Topology Error</td>
+    <td><img src="PySOMVis/pics/git/Umatrix.png" width=350/>/br U-Matrix</td>
+    <td><img src="PySOMVis/pics/git/Ustarmatrix.png" width=350/>/br U*-Matrix</td>
+    <td><img src="PySOMVis/pics/git/activhist.png" width=350/>/br Activity Histogram</td>
   </tr>
 </tbody>
 </table>
