@@ -15,8 +15,8 @@ The picture bellow (timeseries.ipynb) represents visualiztion algorithm on weath
 <table align="center">
 <tbody align="center">
   <tr align="center">
-    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_i.png" width=100/></td>
-    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_3years.png" width=100/></br><img src="PySOMVis/pics/35years_Taxis.png" width=100/></td>
+    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_i.png" width=250/></td>
+    <td align="center"><img src="PySOMVis/pics/SOMStreamVis_3years.png" width=250/></br><img src="PySOMVis/pics/35years_Taxis.png" width=250/></td>
   </tr>
 </tbody>
 </table>
