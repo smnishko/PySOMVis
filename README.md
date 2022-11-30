@@ -19,30 +19,30 @@ Visualizations are based on the Chain Link Data set (). It is synthetic data rep
 <table>
 <thead>
   <tr>
-    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
-    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
-    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
-    <th><img src="PySOMVis/git/activhist.png" width=550/></th>
+    <th><img src="PySOMVis/pics/git/Umatrix.png" /></th>
+    <th><img src="PySOMVis/git/activhist.png" /></th>
+    <th><img src="PySOMVis/git/activhist.png" /></th>
+    <th><img src="PySOMVis/git/activhist.png" /></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
   </tr>
   <tr>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
-    <td><img src="PySOMVis/git/activhist.png" width=550/></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
+    <td><img src="PySOMVis/git/activhist.png" /></td>
   </tr>
 </tbody>
 </table>
