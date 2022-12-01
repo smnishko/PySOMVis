@@ -21,17 +21,14 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
     <td align="center"><img src="PySOMVis/pics/git/metromap.png" width=100/></br><sup><sup>Metro Map</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/minimspantree.png" width=100/></br><sup><sup>Minimum Spanning Tree</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/Ustarmatrix.png" width=100/></br><sup><sup>U*-Matrix</sup></sup></td>
-    <td align="center"><img src="PySOMVis/pics/git/activhist.png" width=100/></br><sup><sup>Activity Histogram</sup></sup></td>
+    <td align="center"><img src="PySOMVis/pics/git/piechart.png" width=100/></br><sup><sup>Pie Chart</sup></sup></td>
   </tr>
   <tr align="center">
-    <td align="center"><img src="PySOMVis/pics/git/piechart.png" width=100/></br><sup><sup>Pie Chart</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/qerror.png" width=100/></br><sup><sup>Quantization Error</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/sdh.png" width=100/></br><sup><sup>Smoothed Data Histogram</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/skymeth.png" width=100/></br><sup><sup>Sky Metaphor</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/chessboard.png" width=100/></br><sup><sup>Chessboard</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/kmeans.png" width=100/></br><sup><sup>K-means (2 clusters)</sup></sup></td>
-  </tr>
-  <tr align="center">
     <td align="center"><img src="PySOMVis/pics/git/agglomerative_clustering.png" width=100/></br><sup><sup>average, complete, single, WARD</sup></sup></td>
   </tr>
 </tbody>
