@@ -31,6 +31,9 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
     <td align="center"><img src="PySOMVis/pics/git/chessboard.png" width=100/></br><sup><sup>Chessboard</sup></sup></td>
     <td align="center"><img src="PySOMVis/pics/git/kmeans.png" width=100/></br><sup><sup>K-means (2 clusters)</sup></sup></td>
   </tr>
+  <tr align="center">
+    <td align="center"><img src="PySOMVis/pics/git/agglomerative_clustering.png" width=100/></br><sup><sup>Agglomerative clustering (average, complete, single, WARD)</sup></sup></td>
+  </tr>
 </tbody>
 </table>
 </br>
