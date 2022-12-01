@@ -32,7 +32,7 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
     <td align="center"><img src="PySOMVis/pics/git/kmeans.png" width=100/></br><sup><sup>K-means (2 clusters)</sup></sup></td>
   </tr>
   <tr align="center">
-    <td align="center"><img src="PySOMVis/pics/git/agglomerative_clustering.png" width=100/></td>
+    <td align="center"><img src="PySOMVis/pics/git/agglomerative_clustering.png" width=100/><sup><sup>Agglomerative clustering</sup></sup>\<sup><sup>average, complete, single, WARD</sup></sup></td>
   </tr>
 </tbody>
 </table>
