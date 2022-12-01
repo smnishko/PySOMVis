@@ -36,7 +36,7 @@ Pictures bellow are based on the projected Chain Link Data set (http://ifs.tuwie
 </br>
 
 # SOMStreamVis approach
-SOMStreamVis approach helps to explore dynamic pattern in data streams. The example represents weather forecast, it includes **5 features** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/).</br>
+SOMStreamVis approach helps to explore dynamic pattern with trained map. The example represents weather forecast, it includes **5 features** of different temperature, pressure and wind speed values over **35 years** (taken from the https://power.larc.nasa.gov/data-access-viewer/).</br>
 The features are following:
 <ul>
   <li>RH2M - Relative Humidity at 2 Meters (%)</li>
