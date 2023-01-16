@@ -4,7 +4,7 @@ from visualizations.iVisualization import VisualizationInterface
 import panel as pn
 import holoviews as hv
 from bokeh.palettes import Category20c, Category20
-
+from bokeh.models import Legend, LegendItem
 
 _COLOURS_93 = np.array(['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFAFAF','#808080',
               '#C00000','#0000C0','#00C000','#C0C000','#C000C0','#00C0C0','#404040','#FF4040',
@@ -28,6 +28,13 @@ class PieChart(VisualizationInterface):
         self._main = main
        
     def _activate_controllers(self, ):
+
+        if self._main._classes_names is not None:
+            ColorColumn = pn.Column()
+            for idx, name in enumerate(self._main._classes_names):
+                ColorColumn.append(pn.widgets.ColorPicker(name=name, value=_COLOURS_93[idx], disabled=True))
+            
+        self._main._controls.append(ColorColumn) 
         self._calculate()
 
     def _deactivate_controllers(self,):
@@ -59,9 +66,20 @@ class PieChart(VisualizationInterface):
             radius      = np.append(radius, d,axis=0)
             start_angle = np.append(start_angle,e,axis=0)
             end_angle   = np.append(end_angle,  f,axis=0)
-        
+
         figure = hv.render(self._main._Image, backend='bokeh')
         figure.wedge(x=pos_x, y=pos_y, radius=radius, fill_color=color, start_angle=start_angle, end_angle=end_angle, line_color=[None]*len(radius))
+        
+#        items = []
+#        indexes = [np.argmax(color==c) for c in np.unique(color)]
+#        for i, ii in enumerate(indexes):
+#            label = str(i)
+#            if self._main._classes_names is not None: label = self._main._classes_names[i]
+#            items.append(LegendItem(label = label, renderers=[figure.renderers[1]], index=(ii)))
+
+#        legend = Legend(items=items)
+#        figure.add_layout(legend, 'right')        
+
         self._main._pdmap[0] = figure        
 
     def _get_pie_chart(self, x, y, piechart, max_size):
@@ -73,8 +91,8 @@ class PieChart(VisualizationInterface):
             angle_start = np.insert(angle[:-1], 0, 0, axis=0)
             angle_end   = np.cumsum(angle)
             if len(wedge) >= 3:
-                color   = np.array(Category20[len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)]
+                color   = _COLOURS_93[np.where(wedge==True)] #np.array(Category20[len(wedge)])[wedge]
             else:
-                color   = np.array(Category20[3][:len(wedge)])[wedge] #_COLOURS_93[np.where(wedge==True)] 
+                color   = _COLOURS_93[np.where(wedge==True)] #np.array(Category20[3][:len(wedge)])[wedge] 
             return np.array([x]*wedge_n), np.array([y]*wedge_n), color, np.array([total/max_size*PIE_CHART]*wedge_n), angle_start, angle_end, 
         return np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])

@@ -64,7 +64,7 @@ _COLOURS_93 = ['#FF5555','#5555FF','#55FF55','#FFFF55','#FF55FF','#55FFFF','#FFA
 
 class PySOMVis():
 
-    def __init__(self, weights, m=None, n=None, dimension=None, input_data=None, classes=None, component_names=None):
+    def __init__(self, weights, m=None, n=None, dimension=None, input_data=None, classes_names=None, classes=None, component_names=None):
         
         self._height = self._width = 500
         self._pipe = Pipe(data=[])
@@ -93,6 +93,8 @@ class PySOMVis():
         else:       self._classes = classes
         if component_names is not None: self._component_names = component_names
         else:                           self._component_names = None
+        if classes_names is not None: self._classes_names = classes_names
+        else:                         self._classes_names = None
 
 
         self._plot = None
